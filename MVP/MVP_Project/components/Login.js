@@ -23,7 +23,7 @@ export default function Login(props) {
       <View>
         <Text>Welcome Back!</Text>
         <TextInput
-          placeholder="Email"
+          placeholder="hello"
           style={styles.input}
           value={email}
           onChange={(e) => {
