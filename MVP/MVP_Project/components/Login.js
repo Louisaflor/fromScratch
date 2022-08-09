@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
+
 import {
   StyleSheet,
   Text,
@@ -10,7 +11,7 @@ import {
   Button,
 } from "react-native";
 
-export default function Login(props) {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,6 +22,7 @@ export default function Login(props) {
   return (
     <View>
       <View>
+        <Text>Welcome to From Scratch!</Text>
         <Text>Welcome Back!</Text>
         <TextInput
           placeholder="hello"
@@ -40,7 +42,14 @@ export default function Login(props) {
             setPassword(e.target.value);
           }}
         />
-        <Button title="Log in" />
+        <TouchableHighlight
+          style={[styles.buttonContainer, styles.loginButton]}
+          onPress={() => {
+            navigation.navigate("bottomNavigator");
+          }}
+        >
+          <Text style={styles.loginText}>Log in</Text>
+        </TouchableHighlight>
       </View>
       <View>
         <Text>New? Create account to get started!</Text>
@@ -70,7 +79,11 @@ export default function Login(props) {
             setConfirmPassword(e.target.value);
           }}
         />
-        <Button title="Sign Up" />
+        <TouchableHighlight
+          style={[styles.buttonContainer, styles.loginButton]}
+        >
+          <Text style={styles.loginText}>Sign Up</Text>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -85,5 +98,26 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginTop: 2,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 5,
+  },
+  loginButton: {
+    backgroundColor: "white",
+    width: 180,
+    height: 30,
+    borderColor: "black",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginText: {
+    color: "black",
   },
 });
