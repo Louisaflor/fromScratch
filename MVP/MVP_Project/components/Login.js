@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 5,
+    borderRadius: 20,
   },
   loginButton: {
     backgroundColor: "white",
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 5,
+    borderRadius: 20,
   },
   center: {
     justifyContent: "center",
