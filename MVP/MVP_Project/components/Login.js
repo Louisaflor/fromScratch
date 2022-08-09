@@ -10,10 +10,11 @@ import {
   TextInput,
   TouchableHighlight,
   Button,
+  Image,
 } from "react-native";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const [newEmail, setNewEmail] = useState("");
@@ -22,13 +23,18 @@ export default function Login({ navigation }) {
 
   const test = () => {
     axios
-      .get(`http://localhost:3000/recipe`)
+      .get(`http://localhost:3000/recipe?${username}`)
       .then((data) => {
         console.log("CHECK IF THE AXIOS WORKS WITH REACT NATIVE: ", data.data);
       })
       .catch((err) => {
         console.log("ERROR IN AXIOS: ", err);
       });
+  };
+
+  const navigate = () => {
+    // console.log("This works", username);
+    navigation.navigate("From Scratch", { username: username });
   };
 
   return (
@@ -40,9 +46,9 @@ export default function Login({ navigation }) {
           <TextInput
             placeholder="Username"
             style={styles.input}
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
+            value={username}
+            onChangeText={(value) => {
+              setUsername(value);
             }}
           />
 
@@ -51,16 +57,14 @@ export default function Login({ navigation }) {
             placeholder="Password"
             style={styles.input}
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
+            onChangeText={(value) => {
+              setPassword(value);
             }}
           />
           <TouchableHighlight
             underlayColor="#DDDDDD"
             style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => {
-              navigation.navigate("bottomNavigator");
-            }}
+            onPress={navigate}
           >
             <Text style={styles.loginText}>Log in</Text>
           </TouchableHighlight>
@@ -69,11 +73,10 @@ export default function Login({ navigation }) {
           <Text>New? Create account to get started!</Text>
           <TextInput
             placeholder="Email"
-            ç
             style={styles.input}
             value={newEmail}
-            onChange={(e) => {
-              setNewEmail(e.target.value);
+            onChangeText={(e) => {
+              setNewEmail(e);
             }}
           />
           <TextInput
@@ -81,8 +84,8 @@ export default function Login({ navigation }) {
             placeholder="Password"
             style={styles.input}
             value={newPassword}
-            onChange={(e) => {
-              setNewPassword(e.target.value);
+            onChangeText={(e) => {
+              setNewPassword(e);
             }}
           />
           <TextInput
@@ -90,8 +93,8 @@ export default function Login({ navigation }) {
             placeholder="Password"
             style={styles.input}
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
+            onChangeText={(e) => {
+              setConfirmPassword(e);
             }}
           />
           <TouchableHighlight
@@ -100,6 +103,13 @@ export default function Login({ navigation }) {
             <Text style={styles.loginText}>Sign Up</Text>
           </TouchableHighlight>
         </View>
+        <Image
+          style={styles.logo}
+          // source={require("../assets/MAMA_HAS_A_HAPPY.webp")}
+          source={{
+            uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -151,5 +161,9 @@ const styles = StyleSheet.create({
   center: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  logo: {
+    width: 66,
+    height: 58,
   },
 });

@@ -13,11 +13,48 @@ router.post("/user", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.send(err);
+    });
+});
+
+router.get("/recipe", (req, res) => {
+  console.log("get request for recipe came in! ", req.query.user);
+  return db
+    .getData(req.query.user)
+    .then((response) => {
+      // console.log("WHAT IS THIS: ", response[0]);
+      return Promise.all(
+        response[0].following.map((person) => {
+          return db.getRecipe(person);
+        })
+      )
+        .then((data) => {
+          var sortByDate = data.flat().sort((a, b) => {
+            b.createdAt - a.createdAt;
+          });
+          console.log("WHAAT IS COMBINED ARR: ", sortByDate);
+          res.send(sortByDate);
+          // var obj = {};
+          // response[0].following.map((person, index) => {
+          //   obj[person] = data[index];
+          // });
+          // console.log("WHAT WAS IN PROMISE ALL obj date: ", obj);
+          // res.send(obj);
+        })
+        .catch((err) => {
+          console.log("ERR IN PROMISE ALL: ", err);
+          res.send(err);
+        });
+
+      // res.send(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
     });
 });
 
 router.post("/recipe", (req, res) => {
-  console.log("get request for recipe came in!");
   return db
     .createRecipe(req.body)
     .then((response) => {
@@ -25,6 +62,30 @@ router.post("/recipe", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+});
+
+router.put("/following", (req, res) => {
+  console.log("GOT IN PUT: ", req.body);
+  return db
+    .addFollowing(req.body)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.put("/image", (req, res) => {
+  return db
+    .saveRecipe(req.body)
+    .then((res) => {
+      console.log("GOT IT GOOD IN IMAGE");
+      res.send(res);
+    })
+    .catch((err) => {
+      res.send(err);
     });
 });
 

@@ -36,6 +36,7 @@ module.exports = {
       var newUser = new userRecipe({
         username: data.name,
         password: data.password,
+        following: data.name,
       });
 
       newUser.save((err) => {
@@ -56,7 +57,7 @@ module.exports = {
         description: data.description,
         ingredients: data.ingredients,
         steps: data.steps,
-        image_id: data.url,
+        image: data.url,
         date: data.date,
       });
 
@@ -70,9 +71,52 @@ module.exports = {
     });
   },
 
-  saveRecipe: function (data) {},
+  getRecipe: function (person) {
+    return Recipe.find({ username: person });
+  },
 
-  addFollowing: function (data) {},
+  getData: function (data) {
+    return new Promise((resolve, reject) => {
+      userRecipe.find({ username: data }).exec((err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  },
+
+  saveRecipe: function (data) {
+    return new Promise((resolve, reject) => {
+      Recipe.updateOne({ _id: data.id }, { $set: { image: data.image } }).exec(
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve("added image");
+          }
+        }
+      );
+    });
+  },
+
+  addFollowing: function (data) {
+    return new Promise((resolve, reject) => {
+      userRecipe
+        .updateOne(
+          { username: data.username },
+          { $push: { following: data.following } }
+        )
+        .exec((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve("updated!");
+          }
+        });
+    });
+  },
 
   deleteSavedRecipe: function (data) {},
 };

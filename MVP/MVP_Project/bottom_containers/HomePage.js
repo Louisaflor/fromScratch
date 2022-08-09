@@ -1,12 +1,36 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import ListOnHomePage from "../components/ListOnHomePage.js";
 
-export default function HomePage(props) {
+const Stack = createStackNavigator();
+
+export default function HomePage({ data }) {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>This is Home page!</Text>
-    </View>
+    <SafeAreaView style={styles.safeView}>
+      <Text>Hello</Text>
+      <View>
+        {data.map((person, index) => {
+          return <ListOnHomePage key={index} person={person} />;
+        })}
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeView: {
+    flex: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  text: {
+    color: "red",
+  },
+  logo: {
+    width: 66,
+    height: 58,
+  },
+});

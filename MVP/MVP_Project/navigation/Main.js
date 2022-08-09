@@ -17,14 +17,15 @@ export default function Main() {
             backgroundColor: "transparent",
           },
           headerTransparent: true,
-          headerTitle: "",
+          // headerTitle: "",
           headerLeftContainerStyle: {
             paddingLeft: 10,
+            marginTop: 65,
           },
         }}
       >
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="bottomNavigator" component={BottomNavigation} />
+        <Stack.Screen name="From Scratch" component={BottomNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
