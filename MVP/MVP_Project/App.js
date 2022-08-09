@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import Login from "./components/Login.js";
+import axios from "axios";
 // import Parse from "parse/react-native.js";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import Main from "./navigation/Main.js";

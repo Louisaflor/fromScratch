@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
+import axios from "axios";
 
 import {
   StyleSheet,
@@ -19,14 +20,25 @@ export default function Login({ navigation }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const test = () => {
+    axios
+      .get(`http://localhost:3000/recipe`)
+      .then((data) => {
+        console.log("CHECK IF THE AXIOS WORKS WITH REACT NATIVE: ", data.data);
+      })
+      .catch((err) => {
+        console.log("ERROR IN AXIOS: ", err);
+      });
+  };
+
   return (
     <SafeAreaView>
-      <View>
-        <View>
+      <View style={styles.mainDiv}>
+        <View style={styles.center}>
           <Text>Welcome to From Scratch!</Text>
           <Text>Welcome Back!</Text>
           <TextInput
-            placeholder="hello"
+            placeholder="Username"
             style={styles.input}
             value={email}
             onChange={(e) => {
@@ -44,6 +56,7 @@ export default function Login({ navigation }) {
             }}
           />
           <TouchableHighlight
+            underlayColor="#DDDDDD"
             style={[styles.buttonContainer, styles.loginButton]}
             onPress={() => {
               navigation.navigate("bottomNavigator");
@@ -52,10 +65,11 @@ export default function Login({ navigation }) {
             <Text style={styles.loginText}>Log in</Text>
           </TouchableHighlight>
         </View>
-        <View>
+        <View style={styles.center}>
           <Text>New? Create account to get started!</Text>
           <TextInput
             placeholder="Email"
+            ç
             style={styles.input}
             value={newEmail}
             onChange={(e) => {
@@ -121,5 +135,21 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "black",
+  },
+  mainDiv: {
+    margin: 20,
+    padding: 20,
+    paddingTop: 40,
+    paddingBottom: 40,
+    marginTop: 130,
+    borderColor: "black",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  center: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
