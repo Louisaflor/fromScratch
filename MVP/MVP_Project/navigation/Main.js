@@ -10,7 +10,19 @@ const Stack = createStackNavigator();
 export default function Main() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{
+          headerstyle: {
+            backgroundColor: "transparent",
+          },
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeftContainerStyle: {
+            paddingLeft: 10,
+          },
+        }}
+      >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="bottomNavigator" component={BottomNavigation} />
       </Stack.Navigator>

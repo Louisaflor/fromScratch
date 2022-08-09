@@ -20,72 +20,74 @@ export default function Login({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <View>
+    <SafeAreaView>
       <View>
-        <Text>Welcome to From Scratch!</Text>
-        <Text>Welcome Back!</Text>
-        <TextInput
-          placeholder="hello"
-          style={styles.input}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
+        <View>
+          <Text>Welcome to From Scratch!</Text>
+          <Text>Welcome Back!</Text>
+          <TextInput
+            placeholder="hello"
+            style={styles.input}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
 
-        <TextInput
-          secureTextEntry={true}
-          placeholder="Password"
-          style={styles.input}
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => {
-            navigation.navigate("bottomNavigator");
-          }}
-        >
-          <Text style={styles.loginText}>Log in</Text>
-        </TouchableHighlight>
+          <TextInput
+            secureTextEntry={true}
+            placeholder="Password"
+            style={styles.input}
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.loginButton]}
+            onPress={() => {
+              navigation.navigate("bottomNavigator");
+            }}
+          >
+            <Text style={styles.loginText}>Log in</Text>
+          </TouchableHighlight>
+        </View>
+        <View>
+          <Text>New? Create account to get started!</Text>
+          <TextInput
+            placeholder="Email"
+            style={styles.input}
+            value={newEmail}
+            onChange={(e) => {
+              setNewEmail(e.target.value);
+            }}
+          />
+          <TextInput
+            secureTextEntry={true}
+            placeholder="Password"
+            style={styles.input}
+            value={newPassword}
+            onChange={(e) => {
+              setNewPassword(e.target.value);
+            }}
+          />
+          <TextInput
+            secureTextEntry={true}
+            placeholder="Password"
+            style={styles.input}
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
+          />
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.loginButton]}
+          >
+            <Text style={styles.loginText}>Sign Up</Text>
+          </TouchableHighlight>
+        </View>
       </View>
-      <View>
-        <Text>New? Create account to get started!</Text>
-        <TextInput
-          placeholder="Email"
-          style={styles.input}
-          value={newEmail}
-          onChange={(e) => {
-            setNewEmail(e.target.value);
-          }}
-        />
-        <TextInput
-          secureTextEntry={true}
-          placeholder="Password"
-          style={styles.input}
-          value={newPassword}
-          onChange={(e) => {
-            setNewPassword(e.target.value);
-          }}
-        />
-        <TextInput
-          secureTextEntry={true}
-          placeholder="Password"
-          style={styles.input}
-          value={confirmPassword}
-          onChange={(e) => {
-            setConfirmPassword(e.target.value);
-          }}
-        />
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-        >
-          <Text style={styles.loginText}>Sign Up</Text>
-        </TouchableHighlight>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
