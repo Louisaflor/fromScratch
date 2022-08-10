@@ -22,7 +22,7 @@ router.get("/recipe", (req, res) => {
   return db
     .getData(req.query.user)
     .then((response) => {
-      // console.log("WHAT IS THIS: ", response[0]);
+      console.log("WHAT IS THIS: ", response[0]);
       return Promise.all(
         response[0].following.map((person) => {
           return db.getRecipe(person);
@@ -32,8 +32,12 @@ router.get("/recipe", (req, res) => {
           var sortByDate = data.flat().sort((a, b) => {
             b.createdAt - a.createdAt;
           });
-          console.log("WHAAT IS COMBINED ARR: ", sortByDate);
-          res.send(sortByDate);
+          var together = {
+            me: response,
+            sortByDate: sortByDate,
+          };
+          console.log("WHAAT IS COMBINED ARR: ", together);
+          res.send(together);
           // var obj = {};
           // response[0].following.map((person, index) => {
           //   obj[person] = data[index];
@@ -65,6 +69,17 @@ router.post("/recipe", (req, res) => {
     });
 });
 
+router.post("/saveRecipe", (req, res) => {
+  return db
+    .saveRecipe(req.body)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
 router.put("/following", (req, res) => {
   console.log("GOT IN PUT: ", req.body);
   return db
@@ -79,10 +94,21 @@ router.put("/following", (req, res) => {
 
 router.put("/image", (req, res) => {
   return db
-    .saveRecipe(req.body)
+    .addImage(req.body)
     .then((res) => {
       console.log("GOT IT GOOD IN IMAGE");
       res.send(res);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.put("/delete", (req, res) => {
+  return db
+    .deleteSavedRecipe(req.body)
+    .then((data) => {
+      res.send(data);
     })
     .catch((err) => {
       res.send(err);

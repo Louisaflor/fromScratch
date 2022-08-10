@@ -17,7 +17,7 @@ export default function Main() {
             backgroundColor: "transparent",
           },
           headerTransparent: true,
-          // headerTitle: "",
+          headerTitle: "",
           headerLeftContainerStyle: {
             paddingLeft: 10,
             marginTop: 65,

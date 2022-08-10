@@ -55,10 +55,10 @@ export default function ListOnHomePage({ person, pictures }) {
                 })}
               </View>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={styles.buttonClose}
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text style={styles.textStyle}>Hide Modal</Text>
+                <Text style={styles.textStyle}>Hide</Text>
               </Pressable>
             </View>
           </View>
@@ -100,7 +100,12 @@ export default function ListOnHomePage({ person, pictures }) {
             </View>
           </View>
         </View>
-        <Text>{person.description}</Text>
+        <View>
+          <Text>{person.description}</Text>
+          <Pressable style={styles.button}>
+            <Text>+</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 5,
     width: 380,
-    height: 180,
+    height: 200,
     borderRadius: 5,
   },
   logo: {
@@ -140,6 +145,14 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // borderColor: "black",
     // borderWidth: 1,
+  },
+
+  bottomContainer: {
+    width: "100%",
+    flex: 1,
+    justifyContent: "space-between",
+    alignContent: "flex-end",
+    flexDirection: "row",
   },
 
   centeredView: {
@@ -163,5 +176,17 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "black",
+    width: 20,
+    height: 20,
+    // marginLeft: 130,
+    // marginTop: 13,
+    borderWidth: 1,
+    borderRadius: 18,
+    elevation: 3,
   },
 });

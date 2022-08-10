@@ -25,7 +25,8 @@ export default function BottomNavigation({ route }) {
       .get(`http://localhost:3000/recipe?user=Louisaflor`)
       .then((data) => {
         // console.log("WHAT IS DATA..: ", data.data);
-        setData(data.data);
+        setHomePage(data.data.sortByDate);
+        setSaved(data.data.me);
         setLoading(false);
       })
       .catch((err) => {
@@ -35,13 +36,15 @@ export default function BottomNavigation({ route }) {
 
   if (loading) {
     return (
-      <Image
-        style={styles.logo}
-        // source={require("../assets/MAMA_HAS_A_HAPPY.webp")}
-        source={{
-          uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
-        }}
-      />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Image
+          style={styles.logo}
+          // source={require("../assets/MAMA_HAS_A_HAPPY.webp")}
+          source={{
+            uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+          }}
+        />
+      </View>
     );
   }
 
@@ -56,12 +59,12 @@ export default function BottomNavigation({ route }) {
         >
           <Tab.Screen
             name="Home Page"
-            children={() => <HomePage data={data} />}
+            children={() => <HomePage data={homePage} />}
           />
 
           <Tab.Screen name="Get Inspired" component={GetInspired} />
 
-          <Tab.Screen name="Saved" component={Saved} />
+          <Tab.Screen name="Saved" children={() => <Saved saved={saved} />} />
 
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>

@@ -16,6 +16,7 @@ const Stack = createStackNavigator();
 const screenWidth = Dimensions.get("window").width;
 
 export default function HomePage({ data }) {
+  // console.log("WHAT IS DATA: ", data);
   var pictures = {
     "Chef John":
       "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/chef_john.jpeg",
@@ -24,7 +25,10 @@ export default function HomePage({ data }) {
   };
   // console.log("WHAT ARE THE DIMENSIONS: ", screenWidth);
   return (
+    // <View>
+
     <SafeAreaView style={styles.safeView}>
+      <Text style={styles.align}>From Scratch</Text>
       <ScrollView>
         <View>
           {/* <Text style={styles.text}>Welcome Back</Text> */}
@@ -36,6 +40,7 @@ export default function HomePage({ data }) {
         </View>
       </ScrollView>
     </SafeAreaView>
+    // </View>
   );
 }
 
@@ -54,5 +59,9 @@ const styles = StyleSheet.create({
   logo: {
     width: 66,
     height: 58,
+  },
+  align: {
+    textAlign: "center",
+    paddingBottom: 20,
   },
 });

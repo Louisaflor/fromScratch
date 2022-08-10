@@ -24,7 +24,7 @@ let Recipe = new mongoose.model("Recipe", recipeSchema); //  TODO: Fill in argum
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
-  savedRecipes: [{ String }],
+  savedRecipes: [{}],
   following: [String],
 });
 
@@ -87,7 +87,7 @@ module.exports = {
     });
   },
 
-  saveRecipe: function (data) {
+  addImage: function (data) {
     return new Promise((resolve, reject) => {
       Recipe.updateOne({ _id: data.id }, { $set: { image: data.image } }).exec(
         (err) => {
@@ -101,10 +101,42 @@ module.exports = {
     });
   },
 
+  saveRecipe: function (data) {
+    return new Promise((resolve, reject) => {
+      Recipe.find({ _id: data.id }).exec((err, recipessss) => {
+        if (err) {
+          reject(err);
+        } else {
+          console.log("WAHT IS THE RECIPE:", recipessss);
+          userRecipe
+            .updateOne(
+              { username: data.username },
+              { $push: { savedRecipes: recipessss[0] } }
+            )
+            .exec((err) => {
+              if (err) {
+                reject(err);
+              } else {
+                userRecipe
+                  .find({ username: data.username })
+                  .exec((err, data) => {
+                    console.log("I GOT IN THE FIND: ", data);
+                    if (err) {
+                      reject(err);
+                    } else {
+                      resolve(data);
+                    }
+                  });
+              }
+            });
+        }
+      });
+    });
+  },
   addFollowing: function (data) {
     return new Promise((resolve, reject) => {
       userRecipe
-        .updateOne(
+        .updateMany(
           { username: data.username },
           { $push: { following: data.following } }
         )
@@ -118,5 +150,20 @@ module.exports = {
     });
   },
 
-  deleteSavedRecipe: function (data) {},
+  deleteSavedRecipe: function (data) {
+    return new Promise((resolve, reject) => {
+      userRecipe
+        .updateOne(
+          { username: data.username },
+          { $pullAll: { savedRecipes: [{ _id: data.id }] } }
+        )
+        .exec((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve("deleted");
+          }
+        });
+    });
+  },
 };
