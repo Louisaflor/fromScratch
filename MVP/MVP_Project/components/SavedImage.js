@@ -7,31 +7,71 @@ import {
   ScrollView,
   Pressable,
   Image,
+  Modal,
+  // CheckBox,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+// import { CheckBox } from "@react-native-community/checkbox";
+// import CheckBox from "@react-native-community/checkbox";
+import Checkbox from "expo-checkbox";
+import DisplaySavedItems from "./DisplaySavedItems.js";
+import DisplayIngredients from "./DisplayIngredients.js";
 
 export default function savedImage({ item, deleteRecipe }) {
+  const [displayModal, setDisplayModal] = useState(false);
+  // console.log("WHAT IS ITEM IN THE SAVED IMAGE__-------: ", item);
   return (
-    <View style={styles.text}>
-      <View style={styles.alignTitle}>
-        <Text style={styles.title}>{item.name}</Text>
-        <Image
-          style={styles.food}
-          source={{
-            uri: item.image,
-          }}
-        />
-        <View style={styles.bottom}>
-          <Text>{item.username}</Text>
+    <View>
+      <Modal animationType="slide" visible={displayModal}>
+        <ScrollView>
+          <View style={styles.description}>
+            <Text>Ingredients to follow:</Text>
+            {item.ingredients.map((item, index) => {
+              return <DisplayIngredients key={index} item={item} />;
+            })}
+          </View>
+          <View style={styles.description}>
+            <Text>Steps to follow:</Text>
+            {item.steps.map((item, index) => {
+              return <DisplaySavedItems key={index} item={item} />;
+            })}
+          </View>
+
           <Pressable
-            style={styles.button}
+            style={styles.buttonClose}
+            onPress={() => setDisplayModal(!displayModal)}
+          >
+            <Text style={styles.textStyle}>HIDE</Text>
+          </Pressable>
+        </ScrollView>
+      </Modal>
+      <View style={styles.text}>
+        <View style={styles.alignTitle}>
+          <Text style={styles.title}>{item.name}</Text>
+          <Pressable
             onPress={() => {
-              deleteRecipe(item.name);
+              setDisplayModal(true);
             }}
           >
-            <Text>-</Text>
+            <Image
+              style={styles.food}
+              source={{
+                uri: item.image,
+              }}
+            />
           </Pressable>
+          <View style={styles.bottom}>
+            <Text>{item.username}</Text>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                deleteRecipe(item.name);
+              }}
+            >
+              <Text>-</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -87,5 +127,22 @@ const styles = StyleSheet.create({
     alignContent: "flex-end",
     flexDirection: "row",
     marginTop: 15,
+  },
+  description: {
+    margin: 10,
+    marginTop: 50,
+    backgroundColor: "#febd0ec2",
+    borderRadius: 20,
+    padding: 20,
+    height: 350,
+    // alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });
