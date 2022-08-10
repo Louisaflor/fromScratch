@@ -80,6 +80,17 @@ router.post("/saveRecipe", (req, res) => {
     });
 });
 
+router.get("/ownRecipe", (req, res) => {
+  return db
+    .getOwnRecipe(req.query.user)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
 router.put("/following", (req, res) => {
   console.log("GOT IN PUT: ", req.body);
   return db

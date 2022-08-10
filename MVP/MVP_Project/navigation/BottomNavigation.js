@@ -7,6 +7,7 @@ import GetInspired from "../bottom_containers/GetInspired.js";
 import Saved from "../bottom_containers/Saved.js";
 import Profile from "../bottom_containers/Profile.js";
 import axios from "axios";
+import parse from "../refactor/parse.js";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,25 +25,64 @@ export default function BottomNavigation({ route }) {
     axios
       .get(`http://localhost:3000/recipe?user=Louisaflor`)
       .then((data) => {
-        // console.log("WHAT IS DATA..: ", data.data);
-        setHomePage(data.data.sortByDate);
-        setSaved(data.data.me[0]);
-        setLoading(false);
+        axios
+          .get(`http://localhost:3000/ownRecipe?user=Louisaflor`)
+          .then((ownRecipe) => {
+            // console.log(
+            //   "DID WE GET ANYTHING IN THE RECIPE----------------------dfklfjdskljfklsdklas----: ",
+            //   ownRecipe.data
+            // );
+            setHomePage(data.data.sortByDate);
+            setSaved(data.data.me[0]);
+            setLoading(false);
+            setProfile(ownRecipe.data);
+          })
+          // console.log("WHAT IS DATA..: ", data.data);
+          .catch((err) => {
+            console.log("ERROR WHEN GETTING OWN RECIPE: ", err);
+          });
       })
       .catch((err) => {
         console.log("ERR WHEN GETTING DATA: ", err);
       });
   }, []);
 
+  const postRecipe = (data) => {
+    // console.log("GOT THE DATA IN THE POST: ", data);
+    var changeData = parse(data);
+    changeData["username"] = "Louisaflor";
+    console.log("DID MT CHANGE DATA WORKSEDFD: ", changeData);
+    // axios
+    //   .post(`http://localhost:3000/recipe`, changeData)
+    //   .then((data) => {
+    //     getRequest();
+    //   })
+    //   .catch((err) => {
+    //     console.log("ERROR WHEN POSTING NEW RECIPE", err);
+    //   });
+  };
+
   const getRequest = () => {
     console.log("went in here!");
     axios
       .get(`http://localhost:3000/recipe?user=Louisaflor`)
       .then((data) => {
-        // console.log("WHAT IS DATA..: ", data.data);
-        setHomePage(data.data.sortByDate);
-        setSaved(data.data.me[0]);
-        setLoading(false);
+        axios
+          .get(`http://localhost:3000/ownRecipe?user=Louisaflor`)
+          .then((ownRecipe) => {
+            // console.log(
+            //   "DID WE GET ANYTHING IN THE RECIPE----------------------dfklfjdskljfklsdklas----: ",
+            //   ownRecipe.data
+            // );
+            setHomePage(data.data.sortByDate);
+            setSaved(data.data.me[0]);
+            setLoading(false);
+            setProfile(ownRecipe.data);
+          })
+          // console.log("WHAT IS DATA..: ", data.data);
+          .catch((err) => {
+            console.log("ERROR WHEN GETTING OWN RECIPE: ", err);
+          });
       })
       .catch((err) => {
         console.log("ERR WHEN GETTING DATA: ", err);
@@ -127,7 +167,12 @@ export default function BottomNavigation({ route }) {
             children={() => <Saved saved={saved} deleteRecipe={deleteRecipe} />}
           />
 
-          <Tab.Screen name="Profile" component={Profile} />
+          <Tab.Screen
+            name="Profile"
+            children={() => (
+              <Profile profileData={profile} postRecipe={postRecipe} />
+            )}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     );

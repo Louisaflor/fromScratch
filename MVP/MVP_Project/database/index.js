@@ -101,6 +101,18 @@ module.exports = {
     });
   },
 
+  getOwnRecipe: function (data) {
+    return new Promise((resolve, reject) => {
+      Recipe.find({ username: data }).exec((err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  },
+
   saveRecipe: function (data) {
     return new Promise((resolve, reject) => {
       Recipe.find({ _id: data.id }).exec((err, recipessss) => {

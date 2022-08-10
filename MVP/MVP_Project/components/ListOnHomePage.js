@@ -21,7 +21,7 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
     <View>
       <Modal
         animationType="fade"
-        transparent={true}
+        // transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
@@ -123,9 +123,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   biggerDiv: {
-    borderColor: "black",
+    backgroundColor: "#DCDCDC",
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 2,
+      width: -2,
+    },
+    elevation: 4,
+    // borderColor: "black",
     padding: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     margin: 10,
     marginLeft: 5,
     marginRight: 5,
@@ -168,6 +176,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 5,
+    marginTop: 50,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,

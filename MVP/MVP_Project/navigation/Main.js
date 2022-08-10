@@ -13,6 +13,7 @@ export default function Main() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{
+          headerTintColor: "transparent",
           headerstyle: {
             backgroundColor: "transparent",
           },
@@ -20,7 +21,7 @@ export default function Main() {
           headerTitle: "",
           headerLeftContainerStyle: {
             paddingLeft: 10,
-            marginTop: 65,
+            // marginTop: 65,
           },
         }}
       >
