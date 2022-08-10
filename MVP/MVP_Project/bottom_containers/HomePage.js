@@ -18,6 +18,10 @@ const Stack = createStackNavigator();
 const screenWidth = Dimensions.get("window").width;
 
 export default function HomePage({ data, saveRecipe }) {
+  console
+    .log
+    // "I AM IN HERE PLEWKSDFJKLSDFHKLSDEFHLKAEJFILOQEJFILOjhfklsdghfk;sdjfkiwehdqfjksdghfkljdshfgwd"
+    ();
   // console.log("WHAT IS DATA: ", data);
   var pictures = {
     "Chef John":

@@ -14,6 +14,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 export default function ListOnHomePage({ person, pictures, saveRecipe }) {
+  // console.log("i am also in here too hellp lpefsaopjasdiofhjsdklghkls");
   // console.log("WHAT IS PERSON DATA", person);
   const [modalVisible, setModalVisible] = useState(false);
 

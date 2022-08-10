@@ -25,18 +25,24 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export default function GetInspired({
   inspired,
   following,
   followUser,
   removeFollower,
+  // navigation,
 }) {
   for (var i = 0; i < inspired.length; i++) {
     if (inspired[i].length === 0) {
       inspired.splice(i, 1);
     }
   }
+  const navigation = useNavigation();
+  const navigate = () => {
+    // console.log("This works", username);
+  };
   // console.log("WHAT IS INSPIREDSDKLFJKALSDJKLASJDLK------------: ", inspired);
   return (
     <View style={styles.container}>
@@ -65,7 +71,15 @@ export default function GetInspired({
         }}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity style={[styles.card, { borderColor: "pink" }]}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Users Profile", {
+                  data: item,
+                  image: "hi",
+                });
+              }}
+              style={[styles.card, { borderColor: "pink" }]}
+            >
               <View style={styles.cardContent}>
                 <Pressable
                   onPress={() => {

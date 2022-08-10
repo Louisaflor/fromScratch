@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, StyleSheet, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomePage from "../bottom_containers/HomePage.js";
 import GetInspired from "../bottom_containers/GetInspired.js";
@@ -8,8 +9,10 @@ import Saved from "../bottom_containers/Saved.js";
 import Profile from "../bottom_containers/Profile.js";
 import axios from "axios";
 import parse from "../refactor/parse.js";
+import UsersProfile from "../components/UsersProfile.js";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function BottomNavigation({ route }) {
   // console.log("WHAT IS THE ROUTE: ", route.params.username);
@@ -183,6 +186,38 @@ export default function BottomNavigation({ route }) {
     );
   }
 
+  const UsersProfileNagivator = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerTintColor: "white",
+          headerstyle: {
+            backgroundColor: "transparent",
+          },
+          headerTransparent: true,
+          headerTitle: "",
+          headerLeftContainerStyle: {
+            paddingLeft: 10,
+            marginTop: 65,
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Get Inspired"
+          children={() => (
+            <GetInspired
+              inspired={inspired}
+              following={saved}
+              followUser={followUser}
+              removeFollower={removeFollower}
+            />
+          )}
+        />
+        <Stack.Screen name="Users Profile" component={UsersProfile} />
+      </Stack.Navigator>
+    );
+  };
+
   if (!loading) {
     return (
       <NavigationContainer independent={true}>
@@ -195,11 +230,15 @@ export default function BottomNavigation({ route }) {
           <Tab.Screen
             name="Home Page"
             children={() => (
-              <HomePage data={homePage} saveRecipe={saveRecipe} />
+              <HomePage
+                data={homePage}
+                saveRecipe={saveRecipe}
+                // navigation={navigation}
+              />
             )}
           />
 
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Get Inspired"
             children={() => (
               <GetInspired
@@ -209,7 +248,9 @@ export default function BottomNavigation({ route }) {
                 removeFollower={removeFollower}
               />
             )}
-          />
+          /> */}
+
+          <Tab.Screen name="Get Inspired" component={UsersProfileNagivator} />
 
           <Tab.Screen
             name="Saved"
