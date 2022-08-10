@@ -11,7 +11,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export default function savedImage({ item }) {
+export default function savedImage({ item, deleteRecipe }) {
   return (
     <View style={styles.text}>
       <View style={styles.alignTitle}>
@@ -24,7 +24,12 @@ export default function savedImage({ item }) {
         />
         <View style={styles.bottom}>
           <Text>{item.username}</Text>
-          <Pressable style={styles.button}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              deleteRecipe(item.name);
+            }}
+          >
             <Text>-</Text>
           </Pressable>
         </View>

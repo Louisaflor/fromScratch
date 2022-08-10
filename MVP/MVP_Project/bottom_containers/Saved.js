@@ -11,17 +11,19 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SavedImage from "../components/SavedImage.js";
 
-export default function Saved({ saved }) {
-  console.log(
-    "DATA FOR MY SAVED------------------------------------: ",
-    saved[0].savedRecipes
-  );
+export default function Saved({ saved, deleteRecipe }) {
+  // console.log(
+  //   "DATA FOR MY SAVED----------------------------RECIPES HELP ME PLEASE--------: ",
+  //   saved.savedRecipes
+  // );
   return (
     <SafeAreaView style={styles.mainDiv}>
       <ScrollView>
         <View style={styles.div}>
-          {saved[0].savedRecipes.map((item, index) => {
-            return <SavedImage key={index} item={item} />;
+          {saved.savedRecipes.map((item, index) => {
+            return (
+              <SavedImage deleteRecipe={deleteRecipe} key={index} item={item} />
+            );
           })}
 
           {/* <Text style={styles.text}>This is the Saved Page!</Text>

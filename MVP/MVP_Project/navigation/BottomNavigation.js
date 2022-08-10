@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomePage from "../bottom_containers/HomePage.js";
@@ -26,13 +26,69 @@ export default function BottomNavigation({ route }) {
       .then((data) => {
         // console.log("WHAT IS DATA..: ", data.data);
         setHomePage(data.data.sortByDate);
-        setSaved(data.data.me);
+        setSaved(data.data.me[0]);
         setLoading(false);
       })
       .catch((err) => {
         console.log("ERR WHEN GETTING DATA: ", err);
       });
   }, []);
+
+  const getRequest = () => {
+    console.log("went in here!");
+    axios
+      .get(`http://localhost:3000/recipe?user=Louisaflor`)
+      .then((data) => {
+        // console.log("WHAT IS DATA..: ", data.data);
+        setHomePage(data.data.sortByDate);
+        setSaved(data.data.me[0]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log("ERR WHEN GETTING DATA: ", err);
+      });
+  };
+
+  const saveRecipe = (recipeId, title) => {
+    Alert.alert(`Saved ${title}!`);
+    console.log("WHAT IS THE ID: ", recipeId);
+    // route.params.username -- NEED TO USE IT BASED OFF OF USERNAME
+    axios
+      .post(`http://localhost:3000/saveRecipe`, {
+        id: recipeId,
+        username: "Louisaflor",
+      })
+      .then((data) => {
+        // var storeInfo = data.data[0]["savedRecipes"];
+        // console.log(
+        //   "WHAT IS THE DATA:--------------------------------------------------------- ",
+        //   storeInfo
+        // );
+        // setSaved(storeInfo);
+        getRequest();
+      })
+      .catch((err) => {
+        console.log("ERR WHEN POSTING NEW RECIPE: ", err);
+      });
+  };
+
+  const deleteRecipe = (nameOfRecipe) => {
+    // route.params.username -- NEED TO USE IT BASED OFF OF USERNAME
+    Alert.alert("Deleted recipe: ", nameOfRecipe);
+    console.log("got in the delete recipe");
+    axios
+      .put(`http://localhost:3000/delete`, {
+        name: nameOfRecipe,
+        username: "Louisaflor",
+      })
+      .then((data) => {
+        // console.log("WHAT IS THE DATA: ", data.data);
+        getRequest();
+      })
+      .catch((err) => {
+        console.log("ERR WHEN POSTING NEW RECIPE: ", err);
+      });
+  };
 
   if (loading) {
     return (
@@ -59,12 +115,17 @@ export default function BottomNavigation({ route }) {
         >
           <Tab.Screen
             name="Home Page"
-            children={() => <HomePage data={homePage} />}
+            children={() => (
+              <HomePage data={homePage} saveRecipe={saveRecipe} />
+            )}
           />
 
           <Tab.Screen name="Get Inspired" component={GetInspired} />
 
-          <Tab.Screen name="Saved" children={() => <Saved saved={saved} />} />
+          <Tab.Screen
+            name="Saved"
+            children={() => <Saved saved={saved} deleteRecipe={deleteRecipe} />}
+          />
 
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>

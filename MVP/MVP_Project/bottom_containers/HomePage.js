@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  Alert,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -15,7 +16,7 @@ import ListOnHomePage from "../components/ListOnHomePage.js";
 const Stack = createStackNavigator();
 const screenWidth = Dimensions.get("window").width;
 
-export default function HomePage({ data }) {
+export default function HomePage({ data, saveRecipe }) {
   // console.log("WHAT IS DATA: ", data);
   var pictures = {
     "Chef John":
@@ -34,7 +35,12 @@ export default function HomePage({ data }) {
           {/* <Text style={styles.text}>Welcome Back</Text> */}
           {data.map((person, index) => {
             return (
-              <ListOnHomePage key={index} person={person} pictures={pictures} />
+              <ListOnHomePage
+                saveRecipe={saveRecipe}
+                key={index}
+                person={person}
+                pictures={pictures}
+              />
             );
           })}
         </View>

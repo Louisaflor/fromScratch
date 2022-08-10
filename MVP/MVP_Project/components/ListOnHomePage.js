@@ -13,7 +13,7 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-export default function ListOnHomePage({ person, pictures }) {
+export default function ListOnHomePage({ person, pictures, saveRecipe }) {
   // console.log("WHAT IS PERSON DATA", person);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -102,7 +102,12 @@ export default function ListOnHomePage({ person, pictures }) {
         </View>
         <View>
           <Text>{person.description}</Text>
-          <Pressable style={styles.button}>
+          <Pressable
+            style={styles.button}
+            onPress={() => {
+              saveRecipe(person["_id"], person.name);
+            }}
+          >
             <Text>+</Text>
           </Pressable>
         </View>

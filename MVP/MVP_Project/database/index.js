@@ -155,7 +155,7 @@ module.exports = {
       userRecipe
         .updateOne(
           { username: data.username },
-          { $pullAll: { savedRecipes: [{ _id: data.id }] } }
+          { $pull: { savedRecipes: { name: data.name } } }
         )
         .exec((err) => {
           if (err) {
