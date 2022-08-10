@@ -23,131 +23,230 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  Pressable,
 } from "react-native";
 
-export default class Users extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        {
-          id: 1,
-          color: "#FF4500",
-          icon: "https://bootdey.com/img/Content/avatar/avatar1.png",
-          name: "User 1",
-          tags: ["tag 1", "tag 2", "tag 3", "Mobile dev", "RN", "Bootdey"],
-        },
-        {
-          id: 2,
-          color: "#87CEEB",
-          icon: "https://bootdey.com/img/Content/avatar/avatar2.png",
-          name: "User 2",
-          tags: ["tag 1", "tag 2", "tag 3", "Dey-Dey", "Developer"],
-        },
-        {
-          id: 3,
-          color: "#4682B4",
-          icon: "https://bootdey.com/img/Content/avatar/avatar3.png",
-          name: "User 3",
-          tags: ["tag 1", "tag 2", "tag 3"],
-        },
-        {
-          id: 4,
-          color: "#6A5ACD",
-          icon: "https://bootdey.com/img/Content/avatar/avatar4.png",
-          name: "User 4",
-          tags: ["tag 1", "tag 2", "tag 3"],
-        },
-        {
-          id: 5,
-          color: "#FF69B4",
-          icon: "https://bootdey.com/img/Content/avatar/avatar5.png",
-          name: "User 5",
-          tags: ["tag 1", "tag 2", "tag 3"],
-        },
-      ],
-    };
+export default function GetInspired({
+  inspired,
+  following,
+  followUser,
+  removeFollower,
+}) {
+  for (var i = 0; i < inspired.length; i++) {
+    if (inspired[i].length === 0) {
+      inspired.splice(i, 1);
+    }
   }
+  // console.log("WHAT IS INSPIREDSDKLFJKALSDJKLASJDLK------------: ", inspired);
+  return (
+    <View style={styles.container}>
+      <View style={styles.formContent}>
+        <View style={styles.inputContainer}>
+          <Image
+            style={[styles.icon, styles.inputIcon]}
+            source={{
+              uri: "https://png.icons8.com/search/androidL/100/000000",
+            }}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Search"
 
-  cardClickEventListener = (item) => {
-    Alert.alert(item.name);
-  };
-
-  tagClickEventListener = (tagName) => {
-    Alert.alert(tagName);
-  };
-
-  renderTags = (item) => {
-    return item.tags.map((tag, key) => {
-      return (
-        <TouchableOpacity
-          key={key}
-          style={styles.btnColor}
-          onPress={() => {
-            this.tagClickEventListener(tag);
-          }}
-        >
-          <Text>{tag}</Text>
-        </TouchableOpacity>
-      );
-    });
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.formContent}>
-          <View style={styles.inputContainer}>
-            <Image
-              style={[styles.icon, styles.inputIcon]}
-              source={{
-                uri: "https://png.icons8.com/search/androidL/100/000000",
-              }}
-            />
-            <TextInput
-              style={styles.inputs}
-              ref={"txtSearch"}
-              placeholder="Search"
-              underlineColorAndroid="transparent"
-              onChangeText={(name_address) => this.setState({ name_address })}
-            />
-          </View>
+            // onChangeText={(name_address) => this.setState({ name_address })}
+          />
         </View>
-
-        <FlatList
-          style={styles.notificationList}
-          data={this.state.data}
-          keyExtractor={(item) => {
-            return item.id;
-          }}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                style={[styles.card, { borderColor: item.color }]}
-                onPress={() => {
-                  this.cardClickEventListener(item);
-                }}
-              >
-                <View style={styles.cardContent}>
-                  <Image
-                    style={[styles.image, styles.imageContent]}
-                    source={{
-                      uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
-                    }}
-                  />
-                  <Text style={styles.name}>{item.name}</Text>
-                </View>
-                <View style={[styles.cardContent, styles.tagsContent]}>
-                  {this.renderTags(item)}
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
       </View>
-    );
-  }
+
+      <FlatList
+        style={styles.notificationList}
+        data={inspired}
+        keyExtractor={(item) => {
+          return item.id;
+        }}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity style={[styles.card, { borderColor: "pink" }]}>
+              <View style={styles.cardContent}>
+                <Pressable
+                  onPress={() => {
+                    removeFollower(item[0].username);
+                  }}
+                >
+                  {following.following.includes(item[0].username) && (
+                    <Text>Following</Text>
+                  )}
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    followUser(item[0].username);
+                  }}
+                >
+                  {!following.following.includes(item[0].username) && (
+                    <Text>Follow +</Text>
+                  )}
+                </Pressable>
+                <Image
+                  style={[styles.image, styles.imageContent]}
+                  source={{
+                    uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+                  }}
+                />
+                <Text style={styles.name}>
+                  {item[0].username !== undefined && (
+                    <Text> {item[0].username} </Text>
+                  )}
+                  {/* {console.log("DOESS THIS WORK?:", item)} */}
+                  {/*username goes here */}
+                </Text>
+              </View>
+              <View style={[styles.cardContent, styles.tagsContent]}>
+                {item.map((picture, index) => {
+                  return (
+                    <Image
+                      key={index}
+                      style={styles.food}
+                      source={{
+                        uri: picture.image,
+                      }}
+                    />
+                  );
+                })}
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </View>
+  );
 }
+
+// export default class Users extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       data: [
+//         {
+//           id: 1,
+//           color: "#FF4500",
+//           icon: "https://bootdey.com/img/Content/avatar/avatar1.png",
+//           name: "User 1",
+//           tags: ["tag 1", "tag 2", "tag 3", "Mobile dev", "RN", "Bootdey"],
+//         },
+//         {
+//           id: 2,
+//           color: "#87CEEB",
+//           icon: "https://bootdey.com/img/Content/avatar/avatar2.png",
+//           name: "User 2",
+//           tags: ["tag 1", "tag 2", "tag 3", "Dey-Dey", "Developer"],
+//         },
+//         {
+//           id: 3,
+//           color: "#4682B4",
+//           icon: "https://bootdey.com/img/Content/avatar/avatar3.png",
+//           name: "User 3",
+//           tags: ["tag 1", "tag 2", "tag 3"],
+//         },
+//         {
+//           id: 4,
+//           color: "#6A5ACD",
+//           icon: "https://bootdey.com/img/Content/avatar/avatar4.png",
+//           name: "User 4",
+//           tags: ["tag 1", "tag 2", "tag 3"],
+//         },
+//         {
+//           id: 5,
+//           color: "#FF69B4",
+//           icon: "https://bootdey.com/img/Content/avatar/avatar5.png",
+//           name: "User 5",
+//           tags: ["tag 1", "tag 2", "tag 3"],
+//         },
+//       ],
+//     };
+//   }
+
+//   cardClickEventListener = (item) => {
+//     Alert.alert(item.name);
+//   };
+
+//   tagClickEventListener = (tagName) => {
+//     Alert.alert(tagName);
+//   };
+
+//   renderTags = (item) => {
+//     return item.tags.map((tag, key) => {
+//       return (
+//         <TouchableOpacity
+//           key={key}
+//           style={styles.btnColor}
+//           onPress={() => {
+//             this.tagClickEventListener(tag);
+//           }}
+//         >
+//           <Text>{tag}</Text>
+//         </TouchableOpacity>
+//       );
+//     });
+//   };
+
+//   render() {
+//     // console.log("WHAT IS THE DATA---------------", this.props.inspired);
+//     return (
+//       <View style={styles.container}>
+//         <View style={styles.formContent}>
+//           <View style={styles.inputContainer}>
+//             <Image
+//               style={[styles.icon, styles.inputIcon]}
+//               source={{
+//                 uri: "https://png.icons8.com/search/androidL/100/000000",
+//               }}
+//             />
+//             <TextInput
+//               // style={styles.inputs}
+//               // ref={"txtSearch"}
+//               placeholder="Search"
+//               // underlineColorAndroid="transparent"
+//               onChangeText={(name_address) => this.setState({ name_address })}
+//             />
+//           </View>
+//         </View>
+
+//         <FlatList
+//           style={styles.notificationList}
+//           data={this.state.data}
+//           keyExtractor={(item) => {
+//             return item.id;
+//           }}
+//           renderItem={({ item }) => {
+//             return (
+//               <TouchableOpacity
+//                 style={[styles.card, { borderColor: item.color }]}
+//                 onPress={() => {
+//                   this.cardClickEventListener(item);
+//                 }}
+//               >
+//                 <View style={styles.cardContent}>
+//                   <Image
+//                     style={[styles.image, styles.imageContent]}
+//                     source={{
+//                       uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+//                     }}
+//                   />
+//                   <Text style={styles.name}>
+//                     {item.name}
+//                     {/*username goes here */}
+//                   </Text>
+//                 </View>
+//                 <View style={[styles.cardContent, styles.tagsContent]}>
+//                   {this.renderTags(item)}
+//                 </View>
+//               </TouchableOpacity>
+//             );
+//           }}
+//         />
+//       </View>
+//     );
+//   }
+// }
 
 const styles = StyleSheet.create({
   container: {
@@ -228,5 +327,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     backgroundColor: "#eee",
     marginTop: 5,
+  },
+  food: {
+    width: 56,
+    height: 48,
+    borderRadius: 20,
+    margin: 5,
   },
 });

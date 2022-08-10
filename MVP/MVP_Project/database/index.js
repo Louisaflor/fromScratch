@@ -71,6 +71,23 @@ module.exports = {
     });
   },
 
+  getAllRecipes1: function (data) {
+    return new Promise((resolve, reject) => {
+      userRecipe.find().exec((err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  },
+
+  getAllRecipes2: function (data) {
+    // console.log("2222 got in here");
+    return Recipe.find({ username: data.username });
+  },
+
   getRecipe: function (person) {
     return Recipe.find({ username: person });
   },
@@ -132,7 +149,7 @@ module.exports = {
                 userRecipe
                   .find({ username: data.username })
                   .exec((err, data) => {
-                    console.log("I GOT IN THE FIND: ", data);
+                    // console.log("I GOT IN THE FIND: ", data);
                     if (err) {
                       reject(err);
                     } else {
@@ -168,6 +185,23 @@ module.exports = {
         .updateOne(
           { username: data.username },
           { $pull: { savedRecipes: { name: data.name } } }
+        )
+        .exec((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve("deleted");
+          }
+        });
+    });
+  },
+
+  deleteFollowing: function (data) {
+    return new Promise((resolve, reject) => {
+      userRecipe
+        .updateOne(
+          { username: data.username },
+          { $pull: { following: data.name } }
         )
         .exec((err) => {
           if (err) {

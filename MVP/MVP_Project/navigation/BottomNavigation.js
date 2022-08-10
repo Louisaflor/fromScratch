@@ -32,10 +32,19 @@ export default function BottomNavigation({ route }) {
             //   "DID WE GET ANYTHING IN THE RECIPE----------------------dfklfjdskljfklsdklas----: ",
             //   ownRecipe.data
             // );
-            setHomePage(data.data.sortByDate);
-            setSaved(data.data.me[0]);
-            setLoading(false);
-            setProfile(ownRecipe.data);
+            axios
+              .get(`http://localhost:3000/allRecipes`)
+              .then((allRecipes) => {
+                setHomePage(data.data.sortByDate);
+                setSaved(data.data.me[0]);
+                setLoading(false);
+                setProfile(ownRecipe.data);
+                setInspired(allRecipes.data);
+                //add all reciped for the get inspired
+              })
+              .catch((err) => {
+                console.log("ERROR WHEN GETTING ALL RECIPES: ", err);
+              });
           })
           // console.log("WHAT IS DATA..: ", data.data);
           .catch((err) => {
@@ -86,6 +95,36 @@ export default function BottomNavigation({ route }) {
       })
       .catch((err) => {
         console.log("ERR WHEN GETTING DATA: ", err);
+      });
+  };
+
+  const removeFollower = (person) => {
+    console.log("GOT IN THE REMOVE FOLLOW USER FUNC: ", person);
+    axios
+      .put(`http://localhost:3000/deleteFollowing`, {
+        username: "Louisaflor",
+        name: person,
+      })
+      .then((data) => {
+        getRequest();
+      })
+      .catch((err) => {
+        console.log("ERR WHEN DELETING FOLLOWED PERSON: ", err);
+      });
+  };
+
+  const followUser = (person) => {
+    console.log("GOT IN THE FOLLOW USER FUNC: ", person);
+    axios
+      .put(`http://localhost:3000/following`, {
+        username: "Louisaflor",
+        following: person,
+      })
+      .then((data) => {
+        getRequest();
+      })
+      .catch((err) => {
+        console.log("ERROR WHEN TRYING TO ADD FOLLOWING PERSON: ", err);
       });
   };
 
@@ -160,7 +199,17 @@ export default function BottomNavigation({ route }) {
             )}
           />
 
-          <Tab.Screen name="Get Inspired" component={GetInspired} />
+          <Tab.Screen
+            name="Get Inspired"
+            children={() => (
+              <GetInspired
+                inspired={inspired}
+                following={saved}
+                followUser={followUser}
+                removeFollower={removeFollower}
+              />
+            )}
+          />
 
           <Tab.Screen
             name="Saved"

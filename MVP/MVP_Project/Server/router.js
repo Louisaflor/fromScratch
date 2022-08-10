@@ -22,7 +22,7 @@ router.get("/recipe", (req, res) => {
   return db
     .getData(req.query.user)
     .then((response) => {
-      console.log("WHAT IS THIS: ", response[0]);
+      console.log("WHAT IS THIS: ", response);
       return Promise.all(
         response[0].following.map((person) => {
           return db.getRecipe(person);
@@ -36,7 +36,7 @@ router.get("/recipe", (req, res) => {
             me: response,
             sortByDate: sortByDate,
           };
-          console.log("WHAAT IS COMBINED ARR: ", together);
+          // console.log("WHAAT IS COMBINED ARR: ", together);
           res.send(together);
           // var obj = {};
           // response[0].following.map((person, index) => {
@@ -54,6 +54,30 @@ router.get("/recipe", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.send(err);
+    });
+});
+
+router.get("/allRecipes", (req, res) => {
+  return db
+    .getAllRecipes1()
+    .then((data) => {
+      // console.log("WAHT IS THE DATA IN HERE: ", data);
+      return Promise.all(
+        data.map((item) => {
+          return db.getAllRecipes2(item);
+        })
+      )
+        .then((data2) => {
+          // console.log("TEH DATA FOR THE PART 2 CAME IN: ", data2);
+          res.send(data2);
+        })
+        .catch((err) => {
+          console.log("ERROR WHEN ORGANIZING: ", err);
+        });
+      // res.send(data);
+    })
+    .catch((err) => {
       res.send(err);
     });
 });
@@ -92,7 +116,7 @@ router.get("/ownRecipe", (req, res) => {
 });
 
 router.put("/following", (req, res) => {
-  console.log("GOT IN PUT: ", req.body);
+  // console.log("GOT IN PUT: ", req.body);
   return db
     .addFollowing(req.body)
     .then((data) => {
@@ -118,6 +142,17 @@ router.put("/image", (req, res) => {
 router.put("/delete", (req, res) => {
   return db
     .deleteSavedRecipe(req.body)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+router.put("/deleteFollowing", (req, res) => {
+  return db
+    .deleteFollowing(req.body)
     .then((data) => {
       res.send(data);
     })
