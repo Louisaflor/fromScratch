@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import { useFonts } from "expo-font";
@@ -22,27 +22,57 @@ export default function Login({ navigation }) {
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [users, setUsers] = useState([]);
+  const [showErr, setShowErr] = useState(false);
 
   let [fontsLoaded] = useFonts({
     "Inter-SemiBoldItalic":
       "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
   });
 
-  // const test = () => {
+  // useEffect(() => {
   //   axios
-  //     .get(`http://localhost:3000/recipe?${username}`)
+  //     .get(`https://10.0.2.2:3000/allUsers`)
   //     .then((data) => {
-  //       console.log("CHECK IF THE AXIOS WORKS WITH REACT NATIVE: ", data.data);
+  //       console.log("GOT THE DATA");
+  //       setUsers(data.data);
   //     })
   //     .catch((err) => {
-  //       console.log("ERROR IN AXIOS: ", err);
+  //       console.log("ERR WHEN GETTING ALL THE USERS: ", err);
   //     });
-  // };
+  // }, []);
+
+  var userNames = [
+    "Louisaflor",
+    "Sam the Cooking Guy",
+    "Chef John",
+    "Martha Stewart",
+  ];
 
   const navigate = () => {
-    // console.log("This works", username);
-    navigation.navigate("From Scratch", { username: username });
+    console.log("This works", users);
+    var userNameThere = true;
+    // for (var i = 0; i < users.length; i++) {
+    //   if (users[i].includes(username)) {
+    //     // inspired.splice(i, 1);
+    //     userNameThere = true;
+    //   }
+    //   break;
+    // }
+
+    if (userNames.includes(username)) {
+      // inspired.splice(i, 1);
+      navigation.navigate("From Scratch", { username: username });
+    } else {
+      setShowErr(true);
+      setTimeout(() => {
+        setShowErr(false);
+      }, 3000);
+      return;
+    }
   };
+
+  // console.log("WHAT IS IN THE DATA: ", users);
 
   return (
     // <SafeAreaView>
@@ -75,6 +105,10 @@ export default function Login({ navigation }) {
               setPassword(value);
             }}
           />
+
+          {showErr && (
+            <Text style={styles.err}>Sorry, Invalid NAME or PASSWORD</Text>
+          )}
           <TouchableHighlight
             underlayColor="#DDDDDD"
             style={[styles.buttonContainer, styles.loginButton]}
@@ -197,5 +231,10 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     justifyContent: "center",
+  },
+  err: {
+    color: "red",
+    fontFamily: "Inter-SemiBoldItalic",
+    padding: 5,
   },
 });

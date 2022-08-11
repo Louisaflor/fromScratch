@@ -58,6 +58,17 @@ router.get("/recipe", (req, res) => {
     });
 });
 
+router.get("/allUsers", (req, res) => {
+  return db
+    .getAllRecipes1()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
 router.get("/allRecipes", (req, res) => {
   return db
     .getAllRecipes1()

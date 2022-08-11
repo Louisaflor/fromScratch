@@ -30,14 +30,16 @@ export default function GetInspired({
       recipeArr.push(inspired[i]);
     }
   }
-  // console.log("GET ME THE USERNAME PLEEOAFOPFJA: ", following.username);
+  console.log("GET ME THE USERNAME PLEEOAFOPFJA: ", following.username);
   var notYourName = [];
   for (var i = 0; i < recipeArr.length; i++) {
-    if (!recipeArr[i].includes(following.username)) {
+    // console.log("WHAT IS THIS : ", recipeArr[i][0].username);
+    if (recipeArr[i][0].username !== following.username) {
       // inspired.splice(i, 1);
       notYourName.push(recipeArr[i]);
     }
   }
+  // console.log("SHOW ME RECIPES: ", notYourName);
   var colors = [
     "#dfc1ff",
     "#f8c3db",

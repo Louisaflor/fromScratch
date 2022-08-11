@@ -12,76 +12,62 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import UpdateRecipe from "../components/UpdateRecipe.js";
 
-export default function Profile({
-  profileData,
-  postRecipe,
-  pictureAndColor,
-  saved,
+export default function UpdateRecipe({
+  updateRecipeModal,
+  setUpdateRecipeModal,
+  recipe,
+  // updateNewStepsVisible,
+  // updateIngredients,
+  // updateDescription,
+  // updateName,
 }) {
-  // console.log(
-  //   "WHAT IS IN THE orfile date IN HOME PAGE===========: ",
-  //   profileData
-  // );
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newRecipeVisible, setNewRecipeVisible] = useState(false);
+  if (recipe.length === 0) {
+    return <Text></Text>;
+  }
+  const [updateNewStepsVisible, setUpdateNewStepsVisible] = useState(
+    recipe.steps.join("\r\n")
+  );
+  const [updateIngredients, setUpdateIngredients] = useState(
+    recipe.ingredients.join("\r\n")
+  );
+  const [updateDescription, setUpdateDescription] = useState(
+    recipe.description
+  );
+  const [updateName, setUpdateName] = useState(recipe.name);
 
-  const [newStepsVisible, setNewStepsVisible] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
-
-  const [updateRecipeModal, setUpdateRecipeModal] = useState(false);
-  const [recipe, setRecipe] = useState("");
-
-  const postReq = () => {
-    var data = {
-      name: name,
-      description: description,
-      ingredients: ingredients,
-      steps: newStepsVisible,
-    };
-    postRecipe(data);
-    setNewRecipeVisible(false);
-    setNewStepsVisible("");
-    setIngredients("");
-    setName("");
-    setDescription("");
-  };
-
-  const updatingRecipe = (data) => {
-    console.log("WHAT IS THIS? ", data);
-    setRecipe(data);
-    setUpdateRecipeModal(true);
-  };
+  console.log("WHAT IS THE RECEIPE--------------: ");
+  // setUpdateName(recipe.name);
+  // setUpdateDescription();
+  // setUpdateIngredients();
+  // setUpdateNewStepsVisible();
 
   return (
-    <View style={styles.container}>
-      <Modal animationType="slide" visible={newRecipeVisible}>
+    <View>
+      <Modal animationType="slide" visible={updateRecipeModal}>
         <ScrollView>
           <View style={styles.description}>
             <TextInput
-              placeholder="Name"
+              // placeholder="Name"
               multiline={true}
               numberOfLines={5}
-              value={name}
+              value={updateName}
               onChangeText={(value) => {
-                setName(value);
+                setUpdateName(value);
               }}
               editable
               maxLength={100}
             />
           </View>
 
-          <View style={styles.description2}>
+          <View style={styles.description}>
             <TextInput
               placeholder="Provide description"
               multiline={true}
               numberOfLines={5}
-              value={description}
+              value={updateDescription}
               onChangeText={(value) => {
-                setDescription(value);
+                setUpdateDescription(value);
               }}
               editable
               maxLength={100}
@@ -93,9 +79,9 @@ export default function Profile({
               placeholder="What are your ingredients?"
               multiline={true}
               numberOfLines={10}
-              value={ingredients}
+              value={updateIngredients}
               onChangeText={(value) => {
-                setIngredients(value);
+                setUpdateIngredients(value);
               }}
               editable
               maxLength={100}
@@ -107,22 +93,15 @@ export default function Profile({
               placeholder="Tell me the process"
               multiline={true}
               numberOfLines={10}
-              value={newStepsVisible}
+              value={updateNewStepsVisible}
               onChangeText={(value) => {
-                setNewStepsVisible(value);
+                setUpdateNewStepsVisible(value);
               }}
               editable
               maxLength={100}
             />
           </View>
-          <View style={styles.bodyContent}>
-            <Pressable
-              onPress={() => setNewRecipeVisible(true)}
-              style={styles.menuBox}
-            >
-              <Text style={styles.info}>Add Image +</Text>
-            </Pressable>
-          </View>
+          <View style={styles.bodyContent}></View>
           <View
             style={{
               flex: 1,
@@ -134,80 +113,17 @@ export default function Profile({
           >
             <Pressable
               style={styles.buttonClose}
-              onPress={() => setNewRecipeVisible(!newRecipeVisible)}
+              onPress={() => setUpdateRecipeModal(false)}
             >
               <Text style={styles.textStyle}>HIDE</Text>
             </Pressable>
-            <Pressable style={styles.buttonClose} onPress={postReq}>
+            {/* need this to submit changed */}
+            <Pressable style={styles.buttonClose}>
               <Text style={styles.textStyle}>POST</Text>
             </Pressable>
           </View>
         </ScrollView>
       </Modal>
-
-      <UpdateRecipe
-        updateRecipeModal={updateRecipeModal}
-        setUpdateRecipeModal={setUpdateRecipeModal}
-        recipe={recipe}
-      />
-
-      {console.log("WHAT IS HIS COLOR? ")}
-
-      <View style={{ backgroundColor: pictureAndColor[saved.username].color }}>
-        <View style={styles.headerContent}>
-          <Image
-            style={styles.avatar}
-            source={{
-              uri: pictureAndColor[saved.username].url,
-            }}
-          />
-
-          <Text style={styles.name}>{saved.username}</Text>
-        </View>
-      </View>
-      <ScrollView>
-        <View style={styles.body}>
-          <View style={styles.bodyContent}>
-            {profileData.length !== 0 &&
-              profileData.map((item, index) => {
-                return (
-                  <Pressable
-                    key={index}
-                    onPress={() => {
-                      updatingRecipe(item);
-                    }}
-                  >
-                    <View style={styles.menuBox}>
-                      <Image
-                        style={styles.icon}
-                        source={{
-                          uri: item.image,
-                        }}
-                      />
-                      <Text style={styles.info}>{item.name}</Text>
-                    </View>
-                  </Pressable>
-                );
-              })}
-            {/* <View style={styles.menuBox}>
-              <Image
-                style={styles.icon}
-                source={{
-                  uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
-                }}
-              />
-              <Text style={styles.info}>Icon</Text>
-            </View> */}
-
-            <Pressable
-              onPress={() => setNewRecipeVisible(true)}
-              style={styles.menuBox}
-            >
-              <Text style={styles.addRecipe}>Add Recipe +</Text>
-            </Pressable>
-          </View>
-        </View>
-      </ScrollView>
     </View>
   );
 }

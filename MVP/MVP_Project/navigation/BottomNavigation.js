@@ -39,7 +39,7 @@ export default function BottomNavigation({ route }) {
     },
     "Sam the Cooking Guy": {
       url: "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
-      color: "#f8c3db",
+      color: "#96cefaf0",
     },
     "Martha Stewart": {
       url: "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandma.jpg",
@@ -54,11 +54,13 @@ export default function BottomNavigation({ route }) {
   useEffect(() => {
     //${route.params.username}
     axios
-      .get(`http://localhost:3000/recipe?user=Louisaflor`)
+      .get(`http://localhost:3000/recipe?user=${route.params.username}`)
       .then((data) => {
         // getting info based off the username and saved recipes
         axios
-          .put(`http://localhost:3000/ownRecipe`, { username: "Louisaflor" })
+          .put(`http://localhost:3000/ownRecipe`, {
+            username: route.params.username,
+          })
           .then((ownRecipe) => {
             //getting all the recipes user made
             // console.log(
@@ -97,7 +99,7 @@ export default function BottomNavigation({ route }) {
   const postRecipe = (data) => {
     // console.log("GOT THE DATA IN THE POST: ", data);
     var changeData = parse(data);
-    changeData["username"] = "Louisaflor";
+    changeData["username"] = route.params.username;
     console.log("DID MT CHANGE DATA WORKSEDFD: ", changeData);
     // axios
     //   .post(`http://localhost:3000/recipe`, changeData)
@@ -110,12 +112,14 @@ export default function BottomNavigation({ route }) {
   };
 
   const getRequest = () => {
-    console.log("went in here!");
+    // console.log("went in here!");
     axios
-      .get(`http://localhost:3000/recipe?user=Louisaflor`)
+      .get(`http://localhost:3000/recipe?user=${route.params.username}`)
       .then((data) => {
         axios
-          .get(`http://localhost:3000/ownRecipe?user=Louisaflor`)
+          .put(`http://localhost:3000/ownRecipe`, {
+            username: route.params.username,
+          })
           .then((ownRecipe) => {
             // console.log(
             //   "DID WE GET ANYTHING IN THE RECIPE----------------------dfklfjdskljfklsdklas----: ",
@@ -137,10 +141,10 @@ export default function BottomNavigation({ route }) {
   };
 
   const removeFollower = (person) => {
-    console.log("GOT IN THE REMOVE FOLLOW USER FUNC: ", person);
+    // console.log("GOT IN THE REMOVE FOLLOW USER FUNC: ", person);
     axios
       .put(`http://localhost:3000/deleteFollowing`, {
-        username: "Louisaflor",
+        username: route.params.username,
         name: person,
       })
       .then((data) => {
@@ -152,10 +156,10 @@ export default function BottomNavigation({ route }) {
   };
 
   const followUser = (person) => {
-    console.log("GOT IN THE FOLLOW USER FUNC: ", person);
+    // console.log("GOT IN THE FOLLOW USER FUNC: ", person);
     axios
       .put(`http://localhost:3000/following`, {
-        username: "Louisaflor",
+        username: route.params.username,
         following: person,
       })
       .then((data) => {
@@ -173,7 +177,7 @@ export default function BottomNavigation({ route }) {
     axios
       .post(`http://localhost:3000/saveRecipe`, {
         id: recipeId,
-        username: "Louisaflor",
+        username: route.params.username,
       })
       .then((data) => {
         // var storeInfo = data.data[0]["savedRecipes"];
@@ -196,7 +200,7 @@ export default function BottomNavigation({ route }) {
     axios
       .put(`http://localhost:3000/delete`, {
         name: nameOfRecipe,
-        username: "Louisaflor",
+        username: route.params.username,
       })
       .then((data) => {
         // console.log("WHAT IS THE DATA: ", data.data);
