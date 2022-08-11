@@ -124,7 +124,7 @@ export default function Profile({ profileData, postRecipe }) {
           <Image
             style={styles.avatar}
             source={{
-              uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+              uri: "https://static.wikia.nocookie.net/cookingmama/images/c/c5/Web_mama_mobile.gif/revision/latest?cb=20110131043700",
             }}
           />
 
@@ -166,8 +166,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 130,
-    height: 130,
+    width: 100,
+    height: 100,
     borderRadius: 63,
     borderWidth: 4,
     borderColor: "white",

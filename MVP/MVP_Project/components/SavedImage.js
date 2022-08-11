@@ -31,7 +31,7 @@ export default function savedImage({ item, deleteRecipe }) {
               return <DisplayIngredients key={index} item={item} />;
             })}
           </View>
-          <View style={styles.description}>
+          <View style={styles.description2}>
             <Text>Steps to follow:</Text>
             {item.steps.map((item, index) => {
               return <DisplaySavedItems key={index} item={item} />;
@@ -46,6 +46,9 @@ export default function savedImage({ item, deleteRecipe }) {
           </Pressable>
         </ScrollView>
       </Modal>
+
+      {/*End of Modal HERE */}
+
       <View style={styles.text}>
         <View style={styles.alignTitle}>
           <Text style={styles.title}>{item.name}</Text>
@@ -80,14 +83,18 @@ export default function savedImage({ item, deleteRecipe }) {
 
 const styles = StyleSheet.create({
   text: {
-    borderColor: "black",
-    margin: 5,
+    // borderColor: "black",
+    marginHorizontal: 5,
+    marginTop: 30,
     padding: 10,
-
-    borderWidth: 1,
+    backgroundColor: "white",
+    // borderWidth: 1,
     height: 170,
     width: 170,
     borderRadius: 10,
+  },
+  textStyle: {
+    textAlign: "center",
   },
 
   button: {
@@ -133,7 +140,24 @@ const styles = StyleSheet.create({
     marginTop: 50,
     backgroundColor: "#febd0ec2",
     borderRadius: 20,
-    padding: 20,
+    padding: 30,
+    height: 350,
+    // alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  description2: {
+    margin: 10,
+    marginTop: 1,
+    backgroundColor: "#febd0ec2",
+    borderRadius: 20,
+    padding: 30,
     height: 350,
     // alignItems: "center",
     shadowColor: "#000",

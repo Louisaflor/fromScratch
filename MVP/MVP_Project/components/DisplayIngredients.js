@@ -27,7 +27,7 @@ export default function DisplayIngredients({ item }) {
         onValueChange={setSelection}
         style={styles.checkbox}
       />
-      <Text>{item}</Text>
+      <Text style={styles.text}>{item}</Text>
     </View>
     // </View>
   );
@@ -39,10 +39,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
+    padding: 7,
   },
   checkbox: {
     alignSelf: "center",
     marginRight: 5,
     marginLeft: 0,
+    width: 15,
+    height: 15,
+    // marginRight: 5,
+  },
+  text: {
+    fontSize: 13,
   },
 });

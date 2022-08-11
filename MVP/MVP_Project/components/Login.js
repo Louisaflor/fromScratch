@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import axios from "axios";
+import { useFonts } from "expo-font";
 
 import {
   StyleSheet,
@@ -11,6 +12,7 @@ import {
   TouchableHighlight,
   Button,
   Image,
+  ImageBackground,
 } from "react-native";
 
 export default function Login({ navigation }) {
@@ -21,16 +23,21 @@ export default function Login({ navigation }) {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const test = () => {
-    axios
-      .get(`http://localhost:3000/recipe?${username}`)
-      .then((data) => {
-        console.log("CHECK IF THE AXIOS WORKS WITH REACT NATIVE: ", data.data);
-      })
-      .catch((err) => {
-        console.log("ERROR IN AXIOS: ", err);
-      });
-  };
+  let [fontsLoaded] = useFonts({
+    "Inter-SemiBoldItalic":
+      "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
+  });
+
+  // const test = () => {
+  //   axios
+  //     .get(`http://localhost:3000/recipe?${username}`)
+  //     .then((data) => {
+  //       console.log("CHECK IF THE AXIOS WORKS WITH REACT NATIVE: ", data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log("ERROR IN AXIOS: ", err);
+  //     });
+  // };
 
   const navigate = () => {
     // console.log("This works", username);
@@ -38,11 +45,18 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <SafeAreaView>
+    // <SafeAreaView>
+    <ImageBackground
+      // resizeMode="cover"
+      style={styles.backgroundImage}
+      source={{
+        uri: "https://flamgraphics.weebly.com/uploads/2/7/8/3/27837765/cookingmama-cookstar-port02.jpg",
+      }}
+    >
       <View style={styles.mainDiv}>
         <View style={styles.center}>
-          <Text>Welcome to From Scratch!</Text>
-          <Text>Welcome Back!</Text>
+          <Text style={styles.welcome}>Welcome to From Scratch!</Text>
+          <Text style={styles.title}>Welcome Back!</Text>
           <TextInput
             placeholder="Username"
             style={styles.input}
@@ -70,7 +84,7 @@ export default function Login({ navigation }) {
           </TouchableHighlight>
         </View>
         <View style={styles.center}>
-          <Text>New? Create account to get started!</Text>
+          <Text style={styles.title}>New? Create account to get started!</Text>
           <TextInput
             placeholder="Email"
             style={styles.input}
@@ -103,27 +117,42 @@ export default function Login({ navigation }) {
             <Text style={styles.loginText}>Sign Up</Text>
           </TouchableHighlight>
         </View>
-        <Image
+        {/* <Image
           style={styles.logo}
           // source={require("../assets/MAMA_HAS_A_HAPPY.webp")}
           source={{
             uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
           }}
-        />
+        /> */}
       </View>
-    </SafeAreaView>
+    </ImageBackground>
+    // </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  welcome: {
+    fontSize: 25,
+    fontFamily: "Inter-SemiBoldItalic",
+    marginBottom: 15,
+    paddingBottom: 15,
+    textAlign: "center",
+  },
+  title: {
+    fontFamily: "Inter-SemiBoldItalic",
+    marginBottom: 8,
+    paddingBottom: 8,
+  },
   input: {
     height: 40,
     width: 200,
     margin: 12,
-    borderWidth: 1,
+    // borderWidth: 1,
     padding: 10,
     borderRadius: 10,
     marginTop: 2,
+    backgroundColor: "#9aebffc7",
+    // fontFamily: "sans-serif-condensed",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -135,11 +164,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   loginButton: {
-    backgroundColor: "white",
+    backgroundColor: "#fac8e1",
     width: 180,
     height: 30,
-    borderColor: "black",
-    borderWidth: 1,
+    // borderColor: "black",
+    // borderWidth: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -151,12 +180,11 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
     paddingBottom: 40,
-    marginTop: 130,
-    borderColor: "black",
-    borderWidth: 1,
+    marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
+    backgroundColor: "#fcfefdeb",
   },
   center: {
     justifyContent: "center",
@@ -165,5 +193,9 @@ const styles = StyleSheet.create({
   logo: {
     width: 66,
     height: 58,
+  },
+  backgroundImage: {
+    flex: 1,
+    justifyContent: "center",
   },
 });

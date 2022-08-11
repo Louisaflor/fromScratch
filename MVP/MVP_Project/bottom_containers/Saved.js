@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useFonts } from "expo-font";
 import {
   StyleSheet,
   Text,
@@ -13,13 +14,18 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SavedImage from "../components/SavedImage.js";
 
 export default function Saved({ saved, deleteRecipe }) {
+  let [fontsLoaded] = useFonts({
+    "Inter-SemiBoldItalic":
+      "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
+  });
   // console.log(
   //   "DATA FOR MY SAVED----------------------------RECIPES HELP ME PLEASE--------: ",
   //   saved.savedRecipes
   // );
   return (
-    <SafeAreaView style={styles.mainDiv}>
+    <View style={styles.mainDiv}>
       <ScrollView>
+        <Text style={styles.align}>Saved Recipes</Text>
         <View style={styles.div}>
           {saved.savedRecipes.map((item, index) => {
             return (
@@ -32,7 +38,7 @@ export default function Saved({ saved, deleteRecipe }) {
           <Text style={styles.text}>This is the Saved Page!</Text> */}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -41,9 +47,10 @@ const styles = StyleSheet.create({
     flex: 5,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop: 100,
+    // marginTop: 100,
     // width: "100%",
     // flexWrap: "wrap",
+    backgroundColor: "#97ccf9d6",
   },
 
   text: {
@@ -74,6 +81,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 18,
     elevation: 3,
+  },
+  align: {
+    textAlign: "center",
+    marginTop: 10,
+    paddingBottom: 20,
+    fontFamily: "Inter-SemiBoldItalic",
+    fontSize: 25,
   },
 
   // button: {

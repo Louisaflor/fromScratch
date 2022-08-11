@@ -23,6 +23,15 @@ export default function BottomNavigation({ route }) {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
 
+  var pictures = {
+    "Chef John":
+      "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandpa.jpg",
+    "Sam the Cooking Guy":
+      "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
+    "Martha Stewart":
+      "https://static.wikia.nocookie.net/cookingmama/images/3/3e/Ichigo.png/revision/latest?cb=20181231192056",
+  };
+
   useEffect(() => {
     //${route.params.username}
     axios
@@ -38,11 +47,14 @@ export default function BottomNavigation({ route }) {
             axios
               .get(`http://localhost:3000/allRecipes`)
               .then((allRecipes) => {
-                setHomePage(data.data.sortByDate);
-                setSaved(data.data.me[0]);
-                setLoading(false);
-                setProfile(ownRecipe.data);
-                setInspired(allRecipes.data);
+                setTimeout(() => {
+                  setHomePage(data.data.sortByDate);
+                  setSaved(data.data.me[0]);
+                  setLoading(false);
+                  setProfile(ownRecipe.data);
+                  setInspired(allRecipes.data);
+                }, 1000);
+
                 //add all reciped for the get inspired
               })
               .catch((err) => {
@@ -182,6 +194,7 @@ export default function BottomNavigation({ route }) {
             uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
           }}
         />
+        <Text>Loading</Text>
       </View>
     );
   }
@@ -210,6 +223,7 @@ export default function BottomNavigation({ route }) {
               following={saved}
               followUser={followUser}
               removeFollower={removeFollower}
+              pictures={pictures}
             />
           )}
         />
@@ -228,6 +242,16 @@ export default function BottomNavigation({ route }) {
           }}
         >
           <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <Image
+                  source={{
+                    uri: "https://static.vecteezy.com/system/resources/previews/004/308/810/non_2x/peach-kawaii-fruit-with-a-smile-free-vector.jpg",
+                  }}
+                  style={{ width: 45, height: 40, borderRadius: 10 }}
+                />
+              ),
+            }}
             name="Home Page"
             children={() => (
               <HomePage
@@ -238,26 +262,47 @@ export default function BottomNavigation({ route }) {
             )}
           />
 
-          {/* <Tab.Screen
+          <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <Image
+                  source={{
+                    uri: "https://image.pngaaa.com/250/115250-middle.png",
+                  }}
+                  style={{ width: 45, height: 40, borderRadius: 10 }}
+                />
+              ),
+            }}
             name="Get Inspired"
-            children={() => (
-              <GetInspired
-                inspired={inspired}
-                following={saved}
-                followUser={followUser}
-                removeFollower={removeFollower}
-              />
-            )}
-          /> */}
-
-          <Tab.Screen name="Get Inspired" component={UsersProfileNagivator} />
+            component={UsersProfileNagivator}
+          />
 
           <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <Image
+                  source={{
+                    uri: "https://png.pngtree.com/png-clipart/20190920/original/pngtree-strawberry-icon-png-image_4626712.jpg",
+                  }}
+                  style={{ width: 45, height: 35, borderRadius: 10 }}
+                />
+              ),
+            }}
             name="Saved"
             children={() => <Saved saved={saved} deleteRecipe={deleteRecipe} />}
           />
 
           <Tab.Screen
+            options={{
+              tabBarIcon: () => (
+                <Image
+                  source={{
+                    uri: "https://png.pngtree.com/png-clipart/20200226/original/pngtree-kawaii-cute-apple-illustration-character-png-image_5325817.jpg",
+                  }}
+                  style={{ width: 45, height: 40, borderRadius: 10 }}
+                />
+              ),
+            }}
             name="Profile"
             children={() => (
               <Profile profileData={profile} postRecipe={postRecipe} />
@@ -280,7 +325,7 @@ const styles = StyleSheet.create({
     color: "red",
   },
   logo: {
-    width: 66,
-    height: 58,
+    width: 86,
+    height: 78,
   },
 });

@@ -14,7 +14,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function Profile({ route }) {
-  console.log("WHAT IS THE ROUTE: ", route.params.image);
+  // console.log("WHAT IS THE ROUTE: ", route.params.pictures);
+  var color = route.params.color;
   const [modalVisible, setModalVisible] = useState(false);
   const [newRecipeVisible, setNewRecipeVisible] = useState(false);
 
@@ -23,14 +24,17 @@ export default function Profile({ route }) {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
 
+  var picUrl = route.params.pictures[route.params.data[0].username];
+  // console.log("THIS IS THE PIC URL: ", picUrl);
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={{ backgroundColor: color }}>
         <View style={styles.headerContent}>
           <Image
             style={styles.avatar}
             source={{
-              uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
+              uri: picUrl,
             }}
           />
 
@@ -105,8 +109,8 @@ const styles = StyleSheet.create({
   },
   menuBox: {
     backgroundColor: "#DCDCDC",
-    width: 100,
-    height: 100,
+    width: 105,
+    height: 105,
     alignItems: "center",
     justifyContent: "center",
     margin: 12,
@@ -119,11 +123,12 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: 65,
+    height: 65,
+    borderRadius: 10,
   },
   info: {
-    fontSize: 22,
+    fontSize: 12,
     color: "#696969",
     textAlign: "center",
   },

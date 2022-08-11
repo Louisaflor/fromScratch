@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useFonts } from "expo-font";
 import {
   StyleSheet,
   Text,
@@ -9,6 +10,7 @@ import {
   Image,
   TouchableHighlight,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -17,6 +19,11 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
   // console.log("i am also in here too hellp lpefsaopjasdiofhjsdklghkls");
   // console.log("WHAT IS PERSON DATA", person);
   const [modalVisible, setModalVisible] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    "Inter-SemiBoldItalic":
+      "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
+  });
 
   return (
     <View>
@@ -32,7 +39,7 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
         <ScrollView>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Ingredients:</Text>
+              <Text style={styles.modalText2}>Ingredients:</Text>
               <View>
                 {person.ingredients.map((each, index) => {
                   return (
@@ -44,8 +51,8 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
               </View>
             </View>
 
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Steps:</Text>
+            <View style={styles.modalView2}>
+              <Text style={styles.modalText2}>Steps:</Text>
               <View>
                 {person.steps.map((steps, index) => {
                   return (
@@ -66,51 +73,56 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
         </ScrollView>
       </Modal>
 
+      {/*START LOOKING HERE */}
+
       <View style={styles.biggerDiv}>
-        <View style={styles.div}>
+        <View style={styles.right}>
+          <Text>{person.createdAt.slice(0, 10)}</Text>
+        </View>
+        <View style={styles.pictureAndAdd}>
           <View>
-            <Text>{person.username}</Text>
             <Image
               style={styles.logo}
               source={{
                 uri: pictures[person.username],
               }}
             />
+            <Text>{person.username}</Text>
           </View>
+          {/* </View> */}
           <View>
-            <View style={styles.centerItems}>
-              <Text>{person.name}</Text>
+            <Text style={styles.centerItems}>{person.name}</Text>
+            <TouchableOpacity
+              underlayColor="#fec3e5"
+              onPress={() => setModalVisible(true)}
+            >
               <Image
                 style={styles.food}
                 source={{
                   uri: person.image,
                 }}
               />
+            </TouchableOpacity>
+            <View style={styles.description}>
+              <Text>{person.description}</Text>
             </View>
           </View>
-
           <View>
-            <View>
-              <Text>{person.createdAt.slice(0, 10)}</Text>
-              <TouchableHighlight
-                underlayColor="#DDDDDD"
-                onPress={() => setModalVisible(true)}
-              >
-                <Text>View More</Text>
-              </TouchableHighlight>
-            </View>
+            <Pressable
+              // style={styles.button}
+              onPress={() => {
+                saveRecipe(person["_id"], person.name);
+              }}
+            >
+              <Image
+                style={styles.logo2}
+                source={{
+                  uri: "https://thumbs.dreamstime.com/b/girly-notepad-writing-cute-notebook-spring-flower-studying-keeping-diary-vector-illustration-flat-cartoon-224682506.jpg",
+                }}
+              />
+              {/* <Text>+</Text> */}
+            </Pressable>
           </View>
-        </View>
-        <View>
-          <Text>{person.description}</Text>
-          <Pressable
-            style={styles.button}
-            onPress={() => {
-              saveRecipe(person["_id"], person.name);
-            }}
-          >
-            <Text>+</Text>
-          </Pressable>
         </View>
       </View>
     </View>
@@ -124,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   biggerDiv: {
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "#fefffeeb",
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowOffset: {
@@ -140,22 +152,37 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 5,
     width: 380,
-    height: 200,
+    height: 460,
     borderRadius: 5,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   logo: {
     width: 56,
     height: 48,
+
     borderRadius: 50,
   },
+  logo2: {
+    // marginLeft: 7,
+    // marginBottom: 7,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    alignSelf: "flex-end",
+  },
   food: {
-    width: 76,
-    height: 68,
-    borderRadius: 20,
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+    // marginHorizontal: "10%",
   },
   centerItems: {
-    flex: 1,
-    flexDirection: "column",
+    textAlign: "center",
+    fontFamily: "Inter-SemiBoldItalic",
+    marginBottom: 5,
+    marginTop: 10,
+    fontSize: 20,
     // justifyContent: "center",
     // borderColor: "black",
     // borderWidth: 1,
@@ -188,9 +215,31 @@ const styles = StyleSheet.create({
       height: 2,
     },
   },
+  modalView2: {
+    margin: 5,
+    marginTop: 2,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  },
+
+  modalText2: {
+    marginBottom: 15,
+    // textAlign: "left",
+    fontFamily: "Inter-SemiBoldItalic",
+    textDecorationLine: "underline",
+  },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+    // fontFamily: "Inter-SemiBoldItalic",
+    // textDecorationLine: "underline",
   },
   button: {
     alignItems: "center",
@@ -203,5 +252,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 18,
     elevation: 3,
+  },
+  right: {
+    alignSelf: "flex-end",
+    position: "absolute",
+    marginTop: 10,
+    marginRight: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+  },
+  pictureAndAdd: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  description: {
+    backgroundColor: "#fec9e4ab",
+    padding: 5,
+    borderRadius: 15,
   },
 });

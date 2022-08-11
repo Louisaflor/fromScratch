@@ -32,17 +32,96 @@ export default function GetInspired({
   following,
   followUser,
   removeFollower,
+  pictures,
   // navigation,
 }) {
+  const navigation = useNavigation();
   for (var i = 0; i < inspired.length; i++) {
     if (inspired[i].length === 0) {
       inspired.splice(i, 1);
     }
   }
-  const navigation = useNavigation();
-  const navigate = () => {
-    // console.log("This works", username);
+  var colors = [
+    "#dfc1ff",
+    "#f8c3db",
+    "#93cff6",
+    "#adf087",
+    "#9bebff",
+    "#fae27d",
+  ];
+
+  const renderProfile = ({ item }) => {
+    var picUrl = pictures[item[0].username];
+    // console.log("THIS IS THE PIC URL: ", picUrl);
+    var randomColor = colors[Math.floor(Math.random() * colors.length)];
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Users Profile", {
+            data: item,
+            image: "hi",
+            color: randomColor,
+            pictures: pictures,
+          });
+        }}
+        style={[
+          styles.card,
+          {
+            borderColor: randomColor,
+          },
+        ]}
+      >
+        <View style={styles.cardContent}>
+          <Pressable
+            onPress={() => {
+              removeFollower(item[0].username);
+            }}
+          >
+            {following.following.includes(item[0].username) && (
+              <Text>Following</Text>
+            )}
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              followUser(item[0].username);
+            }}
+          >
+            {!following.following.includes(item[0].username) && (
+              <Text>Follow +</Text>
+            )}
+          </Pressable>
+          <Image
+            style={[styles.image, styles.imageContent]}
+            source={{
+              uri: picUrl,
+            }}
+          />
+          <Text style={styles.name}>
+            {item[0].username !== undefined && (
+              <Text> {item[0].username} </Text>
+            )}
+            {/* {console.log("DOESS THIS WORK?:", item)} */}
+            {/*username goes here */}
+          </Text>
+        </View>
+        <View style={[styles.cardContent, styles.tagsContent]}>
+          {item.map((picture, index) => {
+            return (
+              <Image
+                key={index}
+                style={styles.food}
+                source={{
+                  uri: picture.image,
+                }}
+              />
+            );
+          })}
+        </View>
+      </TouchableOpacity>
+    );
   };
+  // console.log("This works", username);
+  // };
   // console.log("WHAT IS INSPIREDSDKLFJKALSDJKLASJDLK------------: ", inspired);
   return (
     <View style={styles.container}>
@@ -69,66 +148,7 @@ export default function GetInspired({
         keyExtractor={(item) => {
           return item.id;
         }}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Users Profile", {
-                  data: item,
-                  image: "hi",
-                });
-              }}
-              style={[styles.card, { borderColor: "pink" }]}
-            >
-              <View style={styles.cardContent}>
-                <Pressable
-                  onPress={() => {
-                    removeFollower(item[0].username);
-                  }}
-                >
-                  {following.following.includes(item[0].username) && (
-                    <Text>Following</Text>
-                  )}
-                </Pressable>
-                <Pressable
-                  onPress={() => {
-                    followUser(item[0].username);
-                  }}
-                >
-                  {!following.following.includes(item[0].username) && (
-                    <Text>Follow +</Text>
-                  )}
-                </Pressable>
-                <Image
-                  style={[styles.image, styles.imageContent]}
-                  source={{
-                    uri: "https://static.wikia.nocookie.net/cookingmama/images/4/47/MAMA_HAS_A_HAPPY.gif/revision/latest?cb=20180910213033",
-                  }}
-                />
-                <Text style={styles.name}>
-                  {item[0].username !== undefined && (
-                    <Text> {item[0].username} </Text>
-                  )}
-                  {/* {console.log("DOESS THIS WORK?:", item)} */}
-                  {/*username goes here */}
-                </Text>
-              </View>
-              <View style={[styles.cardContent, styles.tagsContent]}>
-                {item.map((picture, index) => {
-                  return (
-                    <Image
-                      key={index}
-                      style={styles.food}
-                      source={{
-                        uri: picture.image,
-                      }}
-                    />
-                  );
-                })}
-              </View>
-            </TouchableOpacity>
-          );
-        }}
+        renderItem={renderProfile}
       />
     </View>
   );
