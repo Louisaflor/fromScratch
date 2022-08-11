@@ -19,7 +19,7 @@ import ListOnHomePage from "../components/ListOnHomePage.js";
 const Stack = createStackNavigator();
 const screenWidth = Dimensions.get("window").width;
 
-export default function HomePage({ data, saveRecipe }) {
+export default function HomePage({ data, saveRecipe, pictures }) {
   let [fontsLoaded] = useFonts({
     "Inter-SemiBoldItalic":
       "https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12",
@@ -29,14 +29,14 @@ export default function HomePage({ data, saveRecipe }) {
   // "I AM IN HERE PLEWKSDFJKLSDFHKLSDEFHLKAEJFILOQEJFILOjhfklsdghfk;sdjfkiwehdqfjksdghfkljdshfgwd"
   // ();
   // console.log("WHAT IS DATA: ", data);
-  var pictures = {
-    "Chef John":
-      "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandpa.jpg",
-    "Sam the Cooking Guy":
-      "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
-    "Martha Stewart":
-      "https://static.wikia.nocookie.net/cookingmama/images/3/3e/Ichigo.png/revision/latest?cb=20181231192056",
-  };
+  // var pictures = {
+  //   "Chef John":
+  //     "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandpa.jpg",
+  //   "Sam the Cooking Guy":
+  //     "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
+  //   "Martha Stewart":
+  //     "https://static.wikia.nocookie.net/cookingmama/images/3/3e/Ichigo.png/revision/latest?cb=20181231192056",
+  // };
   // console.log("WHAT ARE THE DIMENSIONS: ", screenWidth);
   return (
     // <View>

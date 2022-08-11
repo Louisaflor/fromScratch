@@ -24,11 +24,12 @@ export default function Profile({ route }) {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
 
-  var picUrl = route.params.pictures[route.params.data[0].username];
+  var picUrl = route.params.pictures[route.params.data[0].username].url;
   // console.log("THIS IS THE PIC URL: ", picUrl);
+  //pictures[item[0].username].url
 
   return (
-    <View style={styles.container}>
+    <View>
       <View style={{ backgroundColor: color }}>
         <View style={styles.headerContent}>
           <Image
@@ -57,13 +58,6 @@ export default function Profile({ route }) {
                 </View>
               );
             })}
-
-            {/* <Pressable
-              onPress={() => setNewRecipeVisible(true)}
-              style={styles.menuBox}
-            >
-              <Text style={styles.info}>Add Recipe +</Text>
-            </Pressable> */}
           </View>
         </View>
       </ScrollView>

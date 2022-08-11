@@ -1,17 +1,3 @@
-// import React, { useState } from "react";
-// import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// //will eventually create a navagation page
-
-// export default function GetInspired(props) {
-//   return (
-//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//       <Text>This is Get Inspired Page!</Text>
-//     </View>
-//   );
-// }
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -36,9 +22,20 @@ export default function GetInspired({
   // navigation,
 }) {
   const navigation = useNavigation();
+
+  var recipeArr = [];
   for (var i = 0; i < inspired.length; i++) {
-    if (inspired[i].length === 0) {
-      inspired.splice(i, 1);
+    if (inspired[i].length !== 0) {
+      // inspired.splice(i, 1);
+      recipeArr.push(inspired[i]);
+    }
+  }
+  // console.log("GET ME THE USERNAME PLEEOAFOPFJA: ", following.username);
+  var notYourName = [];
+  for (var i = 0; i < recipeArr.length; i++) {
+    if (!recipeArr[i].includes(following.username)) {
+      // inspired.splice(i, 1);
+      notYourName.push(recipeArr[i]);
     }
   }
   var colors = [
@@ -51,9 +48,9 @@ export default function GetInspired({
   ];
 
   const renderProfile = ({ item }) => {
-    var picUrl = pictures[item[0].username];
-    // console.log("THIS IS THE PIC URL: ", picUrl);
-    var randomColor = colors[Math.floor(Math.random() * colors.length)];
+    // console.log("THIS IS THE PIC URL AGIN ANF AFIN: ", item);
+    var picUrl = pictures[item[0].username].url; //add .url
+    var randomColor = pictures[item[0].username].color; //colors[Math.floor(Math.random() * colors.length)];
     return (
       <TouchableOpacity
         onPress={() => {
@@ -93,7 +90,7 @@ export default function GetInspired({
           <Image
             style={[styles.image, styles.imageContent]}
             source={{
-              uri: picUrl,
+              uri: pictures[item[0].username].url,
             }}
           />
           <Text style={styles.name}>
@@ -144,7 +141,7 @@ export default function GetInspired({
 
       <FlatList
         style={styles.notificationList}
-        data={inspired}
+        data={notYourName}
         keyExtractor={(item) => {
           return item.id;
         }}

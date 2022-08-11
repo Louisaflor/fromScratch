@@ -18,11 +18,11 @@ router.post("/user", (req, res) => {
 });
 
 router.get("/recipe", (req, res) => {
-  console.log("get request for recipe came in! ", req.query.user);
+  // console.log("get request for recipe came in! ", req.query.user);
   return db
     .getData(req.query.user)
     .then((response) => {
-      console.log("WHAT IS THIS: ", response);
+      // console.log("WHAT IS THIS: ", response);
       return Promise.all(
         response[0].following.map((person) => {
           return db.getRecipe(person);
@@ -30,13 +30,13 @@ router.get("/recipe", (req, res) => {
       )
         .then((data) => {
           var sortByDate = data.flat().sort((a, b) => {
-            b.createdAt - a.createdAt;
+            return b.createdAt - a.createdAt;
           });
           var together = {
             me: response,
             sortByDate: sortByDate,
           };
-          // console.log("WHAAT IS COMBINED ARR: ", together);
+          // console.log("WHAAT IS SORTED DATESS ARR: ", sortByDate);
           res.send(together);
           // var obj = {};
           // response[0].following.map((person, index) => {
@@ -63,6 +63,7 @@ router.get("/allRecipes", (req, res) => {
     .getAllRecipes1()
     .then((data) => {
       // console.log("WAHT IS THE DATA IN HERE: ", data);
+      //sorting the recipes by username
       return Promise.all(
         data.map((item) => {
           return db.getAllRecipes2(item);
@@ -104,9 +105,10 @@ router.post("/saveRecipe", (req, res) => {
     });
 });
 
-router.get("/ownRecipe", (req, res) => {
+//getting all recipes the user made
+router.put("/ownRecipe", (req, res) => {
   return db
-    .getOwnRecipe(req.query.user)
+    .getOwnRecipe(req.body.username)
     .then((data) => {
       res.send(data);
     })
@@ -131,7 +133,7 @@ router.put("/image", (req, res) => {
   return db
     .addImage(req.body)
     .then((res) => {
-      console.log("GOT IT GOOD IN IMAGE");
+      // console.log("GOT IT GOOD IN IMAGE");
       res.send(res);
     })
     .catch((err) => {

@@ -29,7 +29,26 @@ export default function BottomNavigation({ route }) {
     "Sam the Cooking Guy":
       "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
     "Martha Stewart":
-      "https://static.wikia.nocookie.net/cookingmama/images/3/3e/Ichigo.png/revision/latest?cb=20181231192056",
+      "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandma.jpg",
+  };
+
+  var pictureAndColor = {
+    "Chef John": {
+      url: "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandpa.jpg",
+      color: "#dfc1ff",
+    },
+    "Sam the Cooking Guy": {
+      url: "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/papa2.jpg",
+      color: "#f8c3db",
+    },
+    "Martha Stewart": {
+      url: "/Users/louisayonzon/hackReactor/MVP/fromScratch/MVP/MVP_Project/assets/grandma.jpg",
+      color: "#9bebff",
+    },
+    Louisaflor: {
+      url: "https://static.wikia.nocookie.net/cookingmama/images/c/c5/Web_mama_mobile.gif/revision/latest?cb=20110131043700",
+      color: "#fec3e5",
+    },
   };
 
   useEffect(() => {
@@ -37,9 +56,11 @@ export default function BottomNavigation({ route }) {
     axios
       .get(`http://localhost:3000/recipe?user=Louisaflor`)
       .then((data) => {
+        // getting info based off the username and saved recipes
         axios
-          .get(`http://localhost:3000/ownRecipe?user=Louisaflor`)
+          .put(`http://localhost:3000/ownRecipe`, { username: "Louisaflor" })
           .then((ownRecipe) => {
+            //getting all the recipes user made
             // console.log(
             //   "DID WE GET ANYTHING IN THE RECIPE----------------------dfklfjdskljfklsdklas----: ",
             //   ownRecipe.data
@@ -47,12 +68,14 @@ export default function BottomNavigation({ route }) {
             axios
               .get(`http://localhost:3000/allRecipes`)
               .then((allRecipes) => {
+                //getting array of all recipes (organized)
+
                 setTimeout(() => {
-                  setHomePage(data.data.sortByDate);
-                  setSaved(data.data.me[0]);
+                  setHomePage(data.data.sortByDate); //array of recipes based off who i follow
+                  setSaved(data.data.me[0]); //array of data of basic info about me (including saved items)
                   setLoading(false);
-                  setProfile(ownRecipe.data);
-                  setInspired(allRecipes.data);
+                  setProfile(ownRecipe.data); //getting all the recipes the user made
+                  setInspired(allRecipes.data); //getting array of all recipes (organized)
                 }, 1000);
 
                 //add all reciped for the get inspired
@@ -223,7 +246,7 @@ export default function BottomNavigation({ route }) {
               following={saved}
               followUser={followUser}
               removeFollower={removeFollower}
-              pictures={pictures}
+              pictures={pictureAndColor}
             />
           )}
         />
@@ -257,6 +280,8 @@ export default function BottomNavigation({ route }) {
               <HomePage
                 data={homePage}
                 saveRecipe={saveRecipe}
+                pictures={pictureAndColor}
+
                 // navigation={navigation}
               />
             )}
@@ -305,7 +330,12 @@ export default function BottomNavigation({ route }) {
             }}
             name="Profile"
             children={() => (
-              <Profile profileData={profile} postRecipe={postRecipe} />
+              <Profile
+                pictureAndColor={pictureAndColor}
+                profileData={profile}
+                postRecipe={postRecipe}
+                saved={saved}
+              />
             )}
           />
         </Tab.Navigator>

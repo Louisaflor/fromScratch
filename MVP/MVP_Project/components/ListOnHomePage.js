@@ -73,7 +73,10 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
         </ScrollView>
       </Modal>
 
-      {/*START LOOKING HERE */}
+      {/* {console.log(
+        "What is the url--------------: ",
+        pictures[person.username].url
+      )} */}
 
       <View style={styles.biggerDiv}>
         <View style={styles.right}>
@@ -84,7 +87,7 @@ export default function ListOnHomePage({ person, pictures, saveRecipe }) {
             <Image
               style={styles.logo}
               source={{
-                uri: pictures[person.username],
+                uri: pictures[person.username].url,
               }}
             />
             <Text>{person.username}</Text>
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginTop: 5,
     width: 380,
-    height: 460,
+    height: 490,
     borderRadius: 5,
     // justifyContent: "center",
     // alignItems: "center",

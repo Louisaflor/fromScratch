@@ -13,7 +13,16 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export default function Profile({ profileData, postRecipe }) {
+export default function Profile({
+  profileData,
+  postRecipe,
+  pictureAndColor,
+  saved,
+}) {
+  console.log(
+    "WHAT IS IN THE orfile date IN HOME PAGE===========: ",
+    profileData
+  );
   const [modalVisible, setModalVisible] = useState(false);
   const [newRecipeVisible, setNewRecipeVisible] = useState(false);
 
@@ -96,7 +105,23 @@ export default function Profile({ profileData, postRecipe }) {
               maxLength={100}
             />
           </View>
-          <View>
+          <View style={styles.bodyContent}>
+            <Pressable
+              onPress={() => setNewRecipeVisible(true)}
+              style={styles.menuBox}
+            >
+              <Text style={styles.info}>Add Image +</Text>
+            </Pressable>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              marginBottom: 20,
+              paddingBottom: 20,
+              justifyContent: "center",
+            }}
+          >
             <Pressable
               style={styles.buttonClose}
               onPress={() => setNewRecipeVisible(!newRecipeVisible)}
@@ -107,34 +132,41 @@ export default function Profile({ profileData, postRecipe }) {
               <Text style={styles.textStyle}>POST</Text>
             </Pressable>
           </View>
-
-          <View style={styles.bodyContent}>
-            <Pressable
-              onPress={() => setNewRecipeVisible(true)}
-              style={styles.menuBox}
-            >
-              <Text style={styles.info}>Add Image +</Text>
-            </Pressable>
-          </View>
         </ScrollView>
       </Modal>
 
-      <View style={styles.header}>
+      {/*End of MODAL HERE */}
+
+      <View style={{ backgroundColor: pictureAndColor[saved.username].color }}>
         <View style={styles.headerContent}>
           <Image
             style={styles.avatar}
             source={{
-              uri: "https://static.wikia.nocookie.net/cookingmama/images/c/c5/Web_mama_mobile.gif/revision/latest?cb=20110131043700",
+              uri: pictureAndColor[saved.username].url,
             }}
           />
 
-          <Text style={styles.name}>LouisaFlor</Text>
+          <Text style={styles.name}>{saved.username}</Text>
         </View>
       </View>
       <ScrollView>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <View style={styles.menuBox}>
+            {profileData.length !== 0 &&
+              profileData.map((item, index) => {
+                return (
+                  <View key={index} style={styles.menuBox}>
+                    <Image
+                      style={styles.icon}
+                      source={{
+                        uri: item.image,
+                      }}
+                    />
+                    <Text style={styles.info}>{item.name}</Text>
+                  </View>
+                );
+              })}
+            {/* <View style={styles.menuBox}>
               <Image
                 style={styles.icon}
                 source={{
@@ -142,7 +174,7 @@ export default function Profile({ profileData, postRecipe }) {
                 }}
               />
               <Text style={styles.info}>Icon</Text>
-            </View>
+            </View> */}
 
             <Pressable
               onPress={() => setNewRecipeVisible(true)}
@@ -174,22 +206,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   name: {
-    fontSize: 22,
+    fontSize: 25,
     color: "#FFFFFF",
     fontWeight: "600",
   },
-  bodyContent: {
-    flex: 1,
-    alignItems: "center",
-    padding: 30,
-  },
+  // bodyContent: {
+  //   flex: 1,
+  //   alignItems: "center",
+  //   padding: 30,
+  // },
   textInfo: {
     fontSize: 18,
     marginTop: 20,
     color: "#696969",
   },
   bodyContent: {
-    paddingTop: 40,
+    paddingTop: 0,
     flexDirection: "row",
     flexWrap: "wrap",
   },
@@ -261,5 +293,17 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+  },
+  textStyle: {
+    textAlign: "center",
+    // alignSelf: "flex-end",
+  },
+  buttonClose: {
+    padding: 15,
+    backgroundColor: "#aaed84cf",
+    marginHorizontal: 10,
+    // marginBottom: 30,
+    // height: 20,
+    borderRadius: 10,
   },
 });

@@ -37,18 +37,19 @@ const styles = StyleSheet.create({
   mainDiv: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 7,
+    marginTop: 15,
+    // alignItems: "center",
+    // justifyContent: "flex-start",
+    // padding: 7,
   },
   checkbox: {
-    alignSelf: "center",
-    marginRight: 5,
-    marginLeft: 0,
+    marginRight: 3,
+    marginLeft: -16,
     width: 15,
     height: 15,
   },
   text: {
-    fontSize: 13,
+    fontSize: 12,
+    paddingRight: 10,
   },
 });

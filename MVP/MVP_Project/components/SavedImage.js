@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: "center",
+    marginBottom: 30,
   },
 
   button: {
@@ -141,7 +142,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#febd0ec2",
     borderRadius: 20,
     padding: 30,
-    height: 350,
+    // height: 390,
+    // width: "100%",
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
     },
   },
   checkbox: {
-    alignSelf: "center",
+    // alignSelf: "center",
   },
   description2: {
     margin: 10,
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#febd0ec2",
     borderRadius: 20,
     padding: 30,
-    height: 350,
+    // height: 350,
     // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
