@@ -258,6 +258,8 @@ export default function BottomNavigation({ route }) {
       </Stack.Navigator>
     );
   };
+  //   const Tab = createBottomTabNavigator();
+  // const Stack = createStackNavigator();
 
   if (!loading) {
     return (

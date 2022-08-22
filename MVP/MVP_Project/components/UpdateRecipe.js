@@ -52,9 +52,7 @@ export default function UpdateRecipe({
               multiline={true}
               numberOfLines={5}
               value={updateName}
-              onChangeText={(value) => {
-                setUpdateName(value);
-              }}
+              onChangeText={setUpdateName}
               editable
               maxLength={100}
             />
@@ -66,9 +64,7 @@ export default function UpdateRecipe({
               multiline={true}
               numberOfLines={5}
               value={updateDescription}
-              onChangeText={(value) => {
-                setUpdateDescription(value);
-              }}
+              onChangeText={setUpdateDescription}
               editable
               maxLength={100}
             />
@@ -80,9 +76,7 @@ export default function UpdateRecipe({
               multiline={true}
               numberOfLines={10}
               value={updateIngredients}
-              onChangeText={(value) => {
-                setUpdateIngredients(value);
-              }}
+              onChangeText={setUpdateIngredients}
               editable
               maxLength={100}
             />
@@ -94,9 +88,7 @@ export default function UpdateRecipe({
               multiline={true}
               numberOfLines={10}
               value={updateNewStepsVisible}
-              onChangeText={(value) => {
-                setUpdateNewStepsVisible(value);
-              }}
+              onChangeText={setUpdateNewStepsVisible}
               editable
               maxLength={100}
             />

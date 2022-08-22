@@ -24,6 +24,7 @@ export default function Login({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [users, setUsers] = useState([]);
   const [showErr, setShowErr] = useState(false);
+  const [usernameAccount, setUsernameAccount] = useState("")
 
   let [fontsLoaded] = useFonts({
     "Inter-SemiBoldItalic":
@@ -120,7 +121,7 @@ export default function Login({ navigation }) {
         <View style={styles.center}>
           <Text style={styles.title}>New? Create account to get started!</Text>
           <TextInput
-            placeholder="Email"
+            placeholder="Username"
             style={styles.input}
             value={newEmail}
             onChangeText={(e) => {

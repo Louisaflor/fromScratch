@@ -38,12 +38,7 @@ router.get("/recipe", (req, res) => {
           };
           // console.log("WHAAT IS SORTED DATESS ARR: ", sortByDate);
           res.send(together);
-          // var obj = {};
-          // response[0].following.map((person, index) => {
-          //   obj[person] = data[index];
-          // });
-          // console.log("WHAT WAS IN PROMISE ALL obj date: ", obj);
-          // res.send(obj);
+         
         })
         .catch((err) => {
           console.log("ERR IN PROMISE ALL: ", err);
