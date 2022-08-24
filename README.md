@@ -16,10 +16,17 @@ We could also look at other profiles and see whether you follow them. You also h
 
 ![6qsosw](https://user-images.githubusercontent.com/80828843/186027316-7267a076-7e96-45ee-a842-d167dd99eb9d.gif)
 
+## Technologies
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+
+
 ## Caveats
 
 Because this project was completed in only 4 days there is still a lot that needs to be improved on. Some known issues:
-- The database uses Mongo but I would like to re-create it to PostgresSQL to create relational tables 
+- The database uses Mongo but I would like to re-create it to PostgresSQL to create relational tables and possibly scale my DB
 - I did not create a new account features if the user is signing up for the first time 
 - The app is also not implementing authentication system.
 
